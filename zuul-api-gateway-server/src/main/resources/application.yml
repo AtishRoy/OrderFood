@@ -1,0 +1,30 @@
+zuul:
+  prefix: /api
+  routes:
+    review-management-service:
+      path: /review/**
+      service-id: REVIEW-MANAGEMENT-SERVICE      
+      stripPrefix: false
+    customer-management-service:
+      path: /customer/**
+      service-id: CUSTOMER-MANAGEMENT-SERVICE
+      stripPrefix: false
+    order-management-service:
+      path: /order/**
+      service-id: ORDER-MANAGEMENT-SERVICE
+      stripPrefix: false
+    restuarant-management-service:
+      path: /restuarant/**
+      service-id: ORDER-MANAGEMENT-SERVICE
+      stripPrefix: false
+    restaurant-search-service:
+      path: /restaurant/**
+      service-id: RESTAURANT-SEARCH-SERVICE
+      stripPrefix: false
+  sensitiveHeaders: Cookie,Set-Cookie
+
+ribbon:
+  ConnectTimeout:  100000
+  ReadTimeout:  100000
+  
+

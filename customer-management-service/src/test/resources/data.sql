@@ -1,0 +1,4 @@
+INSERT INTO address (address_id, address, area, city, landmark, latitude, longitude, pin_code, state) VALUES (1, 'address', 'area', 'city', 'landmark', 'lat', 'lon', 'pin', 'state');
+INSERT INTO address (address_id, address, area, city, landmark, latitude, longitude, pin_code, state) VALUES (2, 'address', 'area', 'city', 'landmark', 'lat', 'lon', 'pin', 'state');
+INSERT INTO customer (customer_id, creation_date, date_of_birth, email, first_name, last_name, phone_number, status, address) VALUES (1, {ts '2012-09-17 18:47:52.69'}, {ts '2012-09-17 18:47:52.69'}, 'raser004@gmail.com', 'Nithya', 'Pranesh', '9980198800', 'ACTIVE', 1);
+INSERT INTO customer (customer_id, creation_date, date_of_birth, email, first_name, last_name, phone_number, status, address) VALUES (2, {ts '2012-09-17 18:47:52.69'}, {ts '2012-09-17 18:47:52.69'}, 'prasanth.sathiya@gmail.com', 'Prasanth', 'Sathiya', '9980198801', 'ACTIVE', 2);
