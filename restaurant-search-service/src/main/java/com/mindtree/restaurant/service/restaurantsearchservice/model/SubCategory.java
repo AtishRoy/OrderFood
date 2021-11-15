@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Document(indexName = "subcategory", type = "restaurant")
+@Document(indexName = "subcategory", shards = 1, replicas = 0, refreshInterval = "5s", createIndex = false)
 @ApiModel(value = "SubCategory", description = "SubCategory details") 
 @Builder
 @AllArgsConstructor

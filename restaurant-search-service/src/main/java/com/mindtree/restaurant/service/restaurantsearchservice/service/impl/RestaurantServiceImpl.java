@@ -1,5 +1,6 @@
 package com.mindtree.restaurant.service.restaurantsearchservice.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,8 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
@@ -32,7 +35,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 		for (Restaurant restaurant2 : restaurantList) {
 			restaurantRepository.save(restaurant2);
 		}
-		elasticsearchTemplate.refresh("restaurant");
 		return restaurantList;
 	}
 
@@ -76,7 +78,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 				.should(QueryBuilders.queryStringQuery("*" + searchParam + "*").lenient(true));
 		NativeSearchQuery build = new NativeSearchQueryBuilder().withQuery(query).build();
 		build.setPageable(new SearchPagination());
-		return elasticsearchTemplate.queryForList(build, Restaurant.class);
+		SearchHits<Restaurant> searchHits = elasticsearchTemplate.search(build, Restaurant.class);
+		
+		
+		List<Restaurant> resturants = new ArrayList<>();
+		for (SearchHit hit : searchHits.getSearchHits()) {
+			resturants.add(hit);
+		  }
 	}
 
 	@Override

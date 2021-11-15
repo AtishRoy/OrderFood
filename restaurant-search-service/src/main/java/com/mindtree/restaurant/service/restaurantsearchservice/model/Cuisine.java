@@ -3,7 +3,6 @@ package com.mindtree.restaurant.service.restaurantsearchservice.model;
 
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -15,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Document(indexName = "cuisine", type = "restaurant")
+@Document(indexName = "cuisine", shards = 1, replicas = 0, refreshInterval = "5s", createIndex = false)
 @ApiModel(value = "Cuisine", description = "Cuisine details") 
 @Builder
 @AllArgsConstructor

@@ -17,7 +17,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Document(indexName = "restaurant", type = "restaurant", shards = 10, replicas = 0, refreshInterval = "-1")
+@Document(indexName = "restaurant", shards = 1, replicas = 0, refreshInterval = "5s", createIndex = false)
 @ApiModel(value = "Restaurant", description = "Restaurant details")
 @Api(value = "Search Restaurant API")
 @AllArgsConstructor
@@ -29,20 +29,27 @@ public class Restaurant implements Serializable {
     @ApiModelProperty(notes = "Id of the restaurant")
     private String restaurantId;
     @ApiModelProperty(notes = "Name of the restaurant")
+    @Field(type = FieldType.Text)
     private String name;
     @ApiModelProperty(notes = "Address of the restaurant")
+    @Field(type = FieldType.Text)
     private Address address;
     @ApiModelProperty(notes = "Website of the restaurant")
+    @Field(type = FieldType.Text)
     private String websiteLink;
     @ApiModelProperty(notes = "Cusisines Available in restaurant the restaurant")
+    @Field(type = FieldType.Nested, includeInParent = true)
     private Collection<Cuisine> cuisineList;
     @ApiModelProperty(notes = "Phone number of the restaurant")
+    @Field(type = FieldType.Text)
     private String phoneNumber;
     @ApiModelProperty(notes = "Average Cost per 2 of the restaurant")
     private float budget;
     @ApiModelProperty(notes = "Restaurant service start time of the restaurant")
+    @Field(type = FieldType.Text)
     private String openingTime;
     @ApiModelProperty(notes = "Restaurant service end time  of the restaurant")
+    @Field(type = FieldType.Text)
     private String closingTime;
     /*
      * @ApiModelProperty(notes = "Latitude location of the restaurant") private
