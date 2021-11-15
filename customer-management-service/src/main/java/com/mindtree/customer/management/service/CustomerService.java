@@ -12,26 +12,25 @@ import com.mindtree.customer.management.model.Customer;
  * <b>Description : </b>
  * CustomerService.
  *
- * @version $Revision: 1 $ $Date: 2018-09-23 09:36:35 AM $
- * @author $Author: nithya.pranesh $
+ * &#64;author $Author: Atish Roy $
  * </pre>
  */
 @Service
 @RefreshScope
 public interface CustomerService {
 
-    //@Transactional
-    Customer addCustomer(Customer customer);
+	// @Transactional
+	Customer addCustomer(Customer customer);
 
-    Customer getCustomer(String email);
+	Customer getCustomer(String email);
 
-    Customer getCustomerForId(String email);
+	Customer getCustomerForId(String email);
 
-    List<Customer> getCustomers(String status);
+	List<Customer> getCustomers(String status);
 
-    //@Transactional
-    Customer updateCustomer(Customer customer);
+	// @Transactional
+	Customer updateCustomer(Customer customer);
 
-    //@Transactional
-    Customer deleteCustomer(String email);
+	// @Transactional
+	Customer deleteCustomer(String email);
 }

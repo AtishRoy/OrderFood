@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 /**
  *
- * @author M1037541.
+ * @author Atish Roy.
  *
  */
 @Entity
@@ -26,6 +26,11 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "item")
 public class Item implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5410914868373863311L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

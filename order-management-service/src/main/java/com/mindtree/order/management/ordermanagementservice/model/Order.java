@@ -24,13 +24,20 @@ import org.hibernate.validator.constraints.Range;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString
 @Table(name = "order_details")
 public class Order implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4737260317047815209L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

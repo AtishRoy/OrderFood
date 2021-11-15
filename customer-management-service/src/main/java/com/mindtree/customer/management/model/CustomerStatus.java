@@ -4,7 +4,7 @@
 package com.mindtree.customer.management.model;
 
 /**
- * @author M1026341
+ * @author Atish Roy
  *
  */
 public enum CustomerStatus {

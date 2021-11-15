@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
  * <b>Description : </b>
  * CustomerIdResponse.
  *
- * &#64;version $Revision: 1 $ $Date: 2018-09-24 10:50:55 PM $
- * &#64;author $Author: nithya.pranesh $
+ * &#64;author $Author: Atish Roy $
  * </pre>
  */
 @Data

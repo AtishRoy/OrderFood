@@ -48,23 +48,20 @@ public class ZuulApiGatewayServerApplication extends SpringBootServletInitialize
 		log.debug("Initialize fire base app!");
 		try {
 
-		    URL resource = getClass().getResource("/serviceAccountKey.json");
-		    String file = resource.getFile();
+			URL resource = getClass().getResource("/serviceAccountKey.json");
+			String file = resource.getFile();
 			FileInputStream serviceAccount = new FileInputStream(file);
 
-			FirebaseOptions options = new FirebaseOptions.Builder()
-					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-					.setDatabaseUrl("https://ordermyfoodapp.firebaseio.com/").build();
+			FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(GoogleCredentials.fromStream(serviceAccount)).setDatabaseUrl("https://ordermyfoodapp.firebaseio.com/").build();
 
 			// Initialize fire base application
-			 if(FirebaseApp.getApps().isEmpty()) { //<--- check with this line
-	                FirebaseApp.initializeApp(options);
-	            }
-			//FirebaseApp.initializeApp(options);
+			if (FirebaseApp.getApps().isEmpty()) { // <--- check with this line
+				FirebaseApp.initializeApp(options);
+			}
+			// FirebaseApp.initializeApp(options);
 			log.debug("Initialized fire base app!");
 		} catch (IOException exp) {
-			ZuulException zuulException = new ZuulException(exp, HttpStatus.SC_UNAUTHORIZED,
-					resourceConfig.invalidToken);
+			ZuulException zuulException = new ZuulException(exp, HttpStatus.SC_UNAUTHORIZED, resourceConfig.invalidToken);
 			log.error(String.format("Failed to initialize fire base app with the error ", exp.getMessage()));
 			throw new ZuulRuntimeException(zuulException);
 		}

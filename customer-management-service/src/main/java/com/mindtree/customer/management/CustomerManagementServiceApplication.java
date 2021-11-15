@@ -23,8 +23,8 @@ public class CustomerManagementServiceApplication extends SpringBootServletIniti
 		SpringApplication.run(CustomerManagementServiceApplication.class, args);
 	}
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(CustomerManagementServiceApplication.class);
-    }
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(CustomerManagementServiceApplication.class);
+	}
 }

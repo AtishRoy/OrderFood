@@ -25,6 +25,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,19 +34,24 @@ import lombok.NoArgsConstructor;
  * <b>Description : </b>
  * Customer.
  *
- * @version $Revision: 1 $ $Date: 2018-09-23 05:53:35 PM $
- * @author $Author: nithya.pranesh $
+ * &#64;author $Author: Atish Roy $
  * </pre>
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "customer")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @ApiModel(value = "Customer", description = "Customer details")
 public class Customer implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 138513478995195979L;
 
 	/**
 	 * CustomerID.
@@ -100,8 +106,10 @@ public class Customer implements Serializable {
 	 */
 	@JoinColumn(name = "address", nullable = true)
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	/*@JoinTable(name = "customer_address", joinColumns=@JoinColumn(name="customer_id"),
-	inverseJoinColumns=@JoinColumn(name="address_id"))*/
+	/*
+	 * @JoinTable(name = "customer_address", joinColumns=@JoinColumn(name="customer_id"),
+	 * inverseJoinColumns=@JoinColumn(name="address_id"))
+	 */
 	@ApiModelProperty(required = false, notes = "Addresses of the Customer")
 	private Address address;
 

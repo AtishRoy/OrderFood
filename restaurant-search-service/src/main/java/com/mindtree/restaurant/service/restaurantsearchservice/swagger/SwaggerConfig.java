@@ -25,7 +25,7 @@ public class SwaggerConfig {
 
 	private ApiInfo apiInfo() {
 		ApiInfoBuilder builder = new ApiInfoBuilder();
-		Contact contact = new Contact("Vinod Kumar", "https://www.mindtree.com/", "vinod.kumar3@mindtree.com");
+		Contact contact = new Contact("Atish Roy", "https://www.atish.roy/", "atish.roy@gmail.com");
 		ApiInfo apiInfo = builder.contact(contact).description("APIs for searching restaurants").license("Apache License Version 2.0").licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
 				.version("1.0").title("Search Restaurants System API").build();
 		return apiInfo;

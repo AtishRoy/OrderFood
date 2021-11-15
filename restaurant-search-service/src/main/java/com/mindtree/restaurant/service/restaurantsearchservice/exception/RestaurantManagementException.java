@@ -1,6 +1,10 @@
 package com.mindtree.restaurant.service.restaurantsearchservice.exception;
 
 public class RestaurantManagementException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 765087893666365333L;
 	private String status;
 	private String message;
 

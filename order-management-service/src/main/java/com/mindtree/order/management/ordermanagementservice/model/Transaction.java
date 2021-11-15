@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author M1026341
+ * @author Atish Roy
  *
  */
 @AllArgsConstructor
@@ -29,6 +29,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "transaction_detail")
 public class Transaction implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7753415194771845974L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

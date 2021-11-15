@@ -4,7 +4,7 @@
 package com.mindtree.order.management.ordermanagementservice.model;
 
 /**
- * @author M1026341
+ * @author Atish Roy
  *
  */
 public enum PaymentMode {

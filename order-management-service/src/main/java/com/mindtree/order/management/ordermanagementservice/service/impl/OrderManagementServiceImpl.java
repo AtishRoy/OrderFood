@@ -33,6 +33,7 @@ import com.mindtree.order.management.ordermanagementservice.service.OrderManagem
 
 @Service
 @RefreshScope
+@SuppressWarnings("deprecation")
 public class OrderManagementServiceImpl implements OrderManagementService {
 
 	@Value("${REQUESTED.ORDER.NOT.FOUND}")
@@ -106,6 +107,7 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			throw new OrderNotFoundException("Couldnt find the customer! This customer has not registered or is an inactive customer");
 		}
 		String id = response.getBody().getCustomerId();
+		@SuppressWarnings("removal")
 		Long customerId = new Long(id);
 		if (customerId == -1) {
 			throw new OrderNotFoundException("Couldnot fetch customerId as Customer service took too long to respond");
@@ -153,6 +155,7 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		}
 	}
 
+	
 	private List<Order> returnAllOrders(Long customerId, Integer pageNumber, Integer count) {
 		List<Order> orders = null;
 		if (pageNumber == null && count == null) {

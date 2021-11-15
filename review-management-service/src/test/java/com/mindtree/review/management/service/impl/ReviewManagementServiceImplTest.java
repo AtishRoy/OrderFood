@@ -29,6 +29,7 @@ import com.mindtree.review.management.repository.ReviewManagementRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@SuppressWarnings("deprecation")
 public class ReviewManagementServiceImplTest {
     
     @Autowired

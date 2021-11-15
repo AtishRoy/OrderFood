@@ -18,15 +18,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * <b>Description : </b>
  * InvalidDataFormatException.
  *
- * @version $Revision: 1 $ $Date: 2018-09-25 02:33:55 AM $
- * @author $Author: nithya.pranesh $
+ * &#64;author $Author: Atish Roy $
  * </pre>
  */
 @ResponseStatus(code = HttpStatus.CONFLICT)
 public class InvalidDataFormatException extends RuntimeException {
 
-    public InvalidDataFormatException(String message) {
-        super(message);
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5323981337807663673L;
+
+	public InvalidDataFormatException(String message) {
+		super(message);
+	}
 
 }

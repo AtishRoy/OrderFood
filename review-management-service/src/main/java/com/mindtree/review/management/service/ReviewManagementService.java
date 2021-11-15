@@ -8,7 +8,7 @@ import java.util.List;
 import com.mindtree.review.management.model.Review;
 
 /**
- * @author Ranjith Ranganathan
+ * $Author: Atish Roy
  *
  */
 

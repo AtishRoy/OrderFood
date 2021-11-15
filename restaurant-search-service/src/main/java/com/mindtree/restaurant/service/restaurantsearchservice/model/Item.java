@@ -18,6 +18,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Item implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -772622387765053969L;
 	@ApiModelProperty(notes = "Name of the item")
 	private String itemName;
 	@ApiModelProperty(notes = "Price of the item")

@@ -19,6 +19,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Cuisine implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4421787515799189543L;
 	@ApiModelProperty(notes = "Cuisines available in Restaurant")
 	private String cuisineName;
 

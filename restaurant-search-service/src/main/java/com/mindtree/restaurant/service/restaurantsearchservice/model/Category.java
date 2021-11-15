@@ -18,6 +18,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Category implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8470224279995198030L;
 	@ApiModelProperty(notes = "Category name")
 	private String categoryName;
 	@ApiModelProperty(notes = "List of categories")

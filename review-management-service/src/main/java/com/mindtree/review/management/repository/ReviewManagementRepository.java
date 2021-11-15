@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.mindtree.review.management.model.Review;
 
 /**
- * @author Ranjith Ranganathan
+ * $Author: Atish Roy
  *
  */
 @Repository

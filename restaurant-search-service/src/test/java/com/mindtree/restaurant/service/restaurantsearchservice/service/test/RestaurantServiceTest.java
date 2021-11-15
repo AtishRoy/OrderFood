@@ -38,6 +38,7 @@ import com.mindtree.restaurant.service.restaurantsearchservice.service.impl.Rest
 import com.mindtree.restaurant.service.restaurantsearchservice.vo.ReviewVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@SuppressWarnings("deprecation")
 public class RestaurantServiceTest {
 	@MockBean
 	private ElasticsearchTemplate elasticsearchTemplate;

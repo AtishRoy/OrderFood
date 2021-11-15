@@ -11,11 +11,9 @@ import com.hazelcast.config.MaxSizeConfig;
 @Configuration
 public class HazelCastCacheConfig {
 	@Bean
-    public Config hazelCastCache() {
-        return new Config().setInstanceName("email").setInstanceName("phoneNumber")
-            .addMapConfig(new MapConfig().setName("customermanagement")
-                .setMaxSizeConfig(new MaxSizeConfig(200, MaxSizeConfig.MaxSizePolicy.FREE_HEAP_SIZE))
-                .setEvictionPolicy(EvictionPolicy.LRU).setTimeToLiveSeconds(100));
+	public Config hazelCastCache() {
+		return new Config().setInstanceName("email").setInstanceName("phoneNumber").addMapConfig(new MapConfig().setName("customermanagement")
+				.setMaxSizeConfig(new MaxSizeConfig(200, MaxSizeConfig.MaxSizePolicy.FREE_HEAP_SIZE)).setEvictionPolicy(EvictionPolicy.LRU).setTimeToLiveSeconds(100));
 
-    }
+	}
 }

@@ -14,6 +14,7 @@ import com.mindtree.review.management.model.Review;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest(showSql = true)
+@SuppressWarnings("deprecation")
 public class ReviewManagementRepositoryTest {
     @Autowired
     private ReviewManagementRepository repository;

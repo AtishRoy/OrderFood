@@ -17,6 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,19 +26,24 @@ import lombok.NoArgsConstructor;
  * <b>Description : </b>
  * Address.
  *
- * @version $Revision: 1 $ $Date: 2018-09-23 05:53:35 PM $
- * @author $Author: nithya.pranesh $
+ * &#64;author $Author: Atish Roy $
  * </pre>
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "address")
 @ApiModel(value = "Address", description = "Address details")
 public class Address implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7149653967805308710L;
 
 	/**
 	 * addressID.
@@ -60,7 +66,7 @@ public class Address implements Serializable {
 	 * landmark.
 	 */
 	@Column(name = "landmark", nullable = true)
-	//@NotBlank(message = "Landmark in Address cannot be null")
+	// @NotBlank(message = "Landmark in Address cannot be null")
 	@ApiModelProperty(required = false, notes = "Landmark of the Address")
 	private String landmark;
 
@@ -92,16 +98,16 @@ public class Address implements Serializable {
 	 * latitude.
 	 */
 	@Column(name = "latitude", nullable = false)
-    @NotBlank(message = "Latitude in Address cannot be null")
-    @ApiModelProperty(required = true, notes = "Latitude of the Address")
+	@NotBlank(message = "Latitude in Address cannot be null")
+	@ApiModelProperty(required = true, notes = "Latitude of the Address")
 	private String latitude;
 
 	/**
 	 * longitude.
 	 */
 	@Column(name = "longitude", nullable = false)
-    @NotBlank(message = "Longitude in Address cannot be null")
-    @ApiModelProperty(required = true, notes = "Longitude of the Address")
+	@NotBlank(message = "Longitude in Address cannot be null")
+	@ApiModelProperty(required = true, notes = "Longitude of the Address")
 	private String longitude;
 
 	/**

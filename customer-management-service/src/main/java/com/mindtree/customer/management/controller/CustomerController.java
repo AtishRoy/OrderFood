@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
 import com.mindtree.customer.management.dto.CustomerIdResponse;
 import com.mindtree.customer.management.dto.CustomerRequest;
 import com.mindtree.customer.management.dto.CustomerResponse;
@@ -42,33 +43,33 @@ import io.swagger.annotations.ApiResponses;
  * <b>Description : </b>
  * CustomerController.
  *
- * @version $Revision: 1 $ $Date: 2018-09-23 09:36:35 AM $
- * @author $Author: nithya.pranesh $
+ * &#64;author $Author: Atish Roy $
  * </pre>
  */
 @RefreshScope
 @RestController
 @RequestMapping("/customer")
-@Api(value = "Customer Management", produces = MediaType.APPLICATION_JSON_VALUE, tags = {
-"Customer Management" }, description = "Api's for managing the Customer")
+@Api(value = "Customer Management", produces = MediaType.APPLICATION_JSON_VALUE, tags = { "Customer Management" }, description = "Api's for managing the Customer")
 public class CustomerController {
 
-    /**
-     * customerService.
-     */
-    @Autowired
-    private CustomerService customerService;
+	/**
+	 * customerService.
+	 */
+	@Autowired
+	private CustomerService customerService;
 
-    private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
+	private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 
-    private static final String X_USER_INFO = "X_USER_INFO";
+	private static final String X_USER_INFO = "X_USER_INFO";
 
-    private static final String X_ACCESS_TOKEN = "X-ACCESS-TOKEN";
+	private static final String X_ACCESS_TOKEN = "X-ACCESS-TOKEN";
 
-    @Autowired
-    private HttpSession httpSession;
+	private Gson gson = new Gson();
 
-    @Value("${customer.management.customer.added.successfully}")
+	@Autowired
+	private HttpSession httpSession;
+
+	@Value("${customer.management.customer.added.successfully}")
 	private String customerAddedSuccessfully;
 
 	@Value("${customer.management.customer.retrieved.successfully}")
@@ -80,160 +81,169 @@ public class CustomerController {
 	@Value("${customer.management.customer.deleted.successfully}")
 	private String customerDeletedSuccessfully;
 
-
-    /**
-     *
-     * <pre>
-     * <b>Description : </b>
-     * Add Customer for a specific Email ID.
-     *
-     * @param customer
-     * @return
-     * </pre>
-     */
-    @ApiOperation(value = "Api to add a customer given by Customer details", response = CustomerResponse.class)
-    @ApiResponses(value = { @ApiResponse(code = 201, message = "Customer added successfully"),
-            @ApiResponse(code = 401, message = "You are not authorized to add customer details"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "Customer you are trying to add is already present") })
-    @PostMapping
-    public ResponseEntity<CustomerResponse> addCustomer(@ApiParam(value = "Customer Info", required = true) @Valid @RequestBody CustomerRequest customer) {
-        String email = getEmailFromToken();
-        Customer customerVO = CustomerMapper.buildCustomerForNewCustomer(email, customer);
-        Customer savedCustomer = customerService.addCustomer(customerVO);
-        CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(savedCustomer, customerAddedSuccessfully);
-        return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
-    }
-
-
-    /**
-     *
-     * <pre>
-     * <b>Description : </b>
-     * Get Customer for a specific Email ID.
-     *
-     * @param email
-     * @return
-     * </pre>
-     */
-    @ApiOperation(value = "Api to get a customer given by Customer Email", response = CustomerResponse.class)
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Customer retrived successfully"),
-            @ApiResponse(code = 401, message = "You are not authorized to retrived customer details"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "Customer you are trying to retrived is not available") })
-    @GetMapping
-    public ResponseEntity<CustomerResponse> getCustomer() {
-        String email = getEmailFromToken();
-        Customer foundCustomer = customerService.getCustomer(email);
-        CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(foundCustomer, customerRetrievedSuccessfully);
-        return new ResponseEntity<>(customerResponse, HttpStatus.OK);
-    }
-
-    /**
-     *
-     * <pre>
-     * <b>Description : </b>
-     * Update Customer for a specific Email ID.
-     *
-     * @param email
-     * @param customer
-     * @return
-     * </pre>
-     */
-    @ApiOperation(value = "Api to update a customer given by Customer details", response = CustomerResponse.class)
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Customer retrived successfully"),
-            @ApiResponse(code = 401, message = "You are not authorized to update customer details"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "Customer you are trying to update is not available") })
-    @PutMapping
-    public ResponseEntity<CustomerResponse> updateCustomer(@ApiParam(value = "Customer Info", required = true) @Valid @RequestBody CustomerRequest customer) {
-        String email = getEmailFromToken();
-        Customer customerTobeUpdated = CustomerMapper.buildCustomerForUpdateCustomer(email, customer);
-        Customer updatedCustomer = customerService.updateCustomer(customerTobeUpdated);
-        CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(updatedCustomer, customerUpdatedSuccessfully);
-        return new ResponseEntity<>(customerResponse, HttpStatus.OK);
-    }
-
-    /**
-     *
-     * <pre>
-     * <b>Description : </b>
-     * Delete Customer for a specific Email ID.
-     *
-     * @param email
-     * @return
-     * </pre>
-     */
-    @ApiOperation(value = "Api to delete a customer given by Customer Email", response = CustomerResponse.class)
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Customer retrived successfully"),
-            @ApiResponse(code = 401, message = "You are not authorized to delete customer details"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "Customer you are trying to delete is not available") })
-    @DeleteMapping
-    public ResponseEntity<CustomerResponse> deleteCustomer() {
-        String email = getEmailFromToken();
-        Customer deleteCustomer = customerService.deleteCustomer(email);
-        CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(deleteCustomer, customerDeletedSuccessfully);
-        return new ResponseEntity<>(customerResponse, HttpStatus.OK);
-    }
-
-
-    /**
-     *
-     * <pre>
-     * <b>Description : </b>
-     * Get Customers for a specific status.
-     *
-     * @param status
-     * @return
-     * </pre>
-     */
-    @ApiOperation(value = "Api to get list of customers by Customer Status", response = CustomerResponse.class)
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Customer list retrived successfully"),
-            @ApiResponse(code = 401, message = "You are not authorized to retrived customer list details"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "Customer you are trying to retrived is not available") })
-    @GetMapping("/getByStatus/{status}")
-    public ResponseEntity<List<CustomerResponse>> getCustomers(@Valid @PathVariable("status") String status) {
-        CustomerMapper.validateStatus(status);
-        List<Customer> customer =  customerService.getCustomers(status);
-        List<CustomerResponse> customerResponseList = CustomerMapper.buildCustomerResponseList(customer);
-        return new ResponseEntity<>(customerResponseList, HttpStatus.OK);
-    }
-
-    /**
-     *
-     * <pre>
-     * <b>Description : </b>
-     * Get Customer ID for a specific Email ID.
-     *
-     * @param email
-     * @return
-     * </pre>
-     */
-    @ApiOperation(value = "Api to get customerID given by Customer Email", hidden = true)
-    /*@ApiResponses(value = { @ApiResponse(code = 200, message = "Customer retrived successfully"),
-            @ApiResponse(code = 401, message = "You are not authorized to retrived customer details"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "Customer you are trying to retrived is not available") })*/
-    @GetMapping(value = "/getCustomerId", headers = X_ACCESS_TOKEN)
-	public ResponseEntity<CustomerIdResponse> getCustomerWithId(@RequestHeader(X_ACCESS_TOKEN) String oauthToken) {
+	/**
+	 *
+	 * <pre>
+	 * <b>Description : </b>
+	 * Add Customer for a specific Email ID.
+	 *
+	 * &#64;param customer
+	 * &#64;return
+	 * </pre>
+	 */
+	@ApiOperation(value = "Api to add a customer given by Customer details", response = CustomerResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Customer added successfully"), @ApiResponse(code = 401, message = "You are not authorized to add customer details"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Customer you are trying to add is already present") })
+	@PostMapping
+	public ResponseEntity<CustomerResponse> addCustomer(@ApiParam(value = "Customer Info", required = true) @Valid @RequestBody CustomerRequest customer) {
+		String methodName = "addCustomer";
 		String email = getEmailFromToken();
-		Customer foundCustomer = customerService.getCustomerForId(email);
-		CustomerIdResponse customerResponse = CustomerMapper.mapCustomerToCustomerIdResponse(foundCustomer);
+		Customer customerVO = CustomerMapper.buildCustomerForNewCustomer(email, customer);
+		Customer savedCustomer = customerService.addCustomer(customerVO);
+		CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(savedCustomer, customerAddedSuccessfully);
+		log.info(methodName, gson.toJson(customerResponse));
+		return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
+	}
+
+	/**
+	 *
+	 * <pre>
+	 * <b>Description : </b>
+	 * Get Customer for a specific Email ID.
+	 *
+	 * &#64;param email
+	 * &#64;return
+	 * </pre>
+	 */
+	@ApiOperation(value = "Api to get a customer given by Customer Email", response = CustomerResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Customer retrived successfully"), @ApiResponse(code = 401, message = "You are not authorized to retrived customer details"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Customer you are trying to retrived is not available") })
+	@GetMapping
+	public ResponseEntity<CustomerResponse> getCustomer() {
+		String methodName = "getCustomer";
+		String email = getEmailFromToken();
+		Customer foundCustomer = customerService.getCustomer(email);
+		CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(foundCustomer, customerRetrievedSuccessfully);
+		log.info(methodName, gson.toJson(customerResponse));
 		return new ResponseEntity<>(customerResponse, HttpStatus.OK);
 	}
 
-    /**
-     *
-     * <pre>
-     * <b>Description : </b>
-     * getEmailFromToken.
-     *
-     * @return
-     * </pre>
-     */
-    private String getEmailFromToken() {
-        return CustomerMapper.getEmailFromToken((OAuthUser) httpSession.getAttribute(X_USER_INFO));
-    }
+	/**
+	 *
+	 * <pre>
+	 * <b>Description : </b>
+	 * Update Customer for a specific Email ID.
+	 *
+	 * &#64;param email
+	 * &#64;param customer
+	 * &#64;return
+	 * </pre>
+	 */
+	@ApiOperation(value = "Api to update a customer given by Customer details", response = CustomerResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Customer retrived successfully"), @ApiResponse(code = 401, message = "You are not authorized to update customer details"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Customer you are trying to update is not available") })
+	@PutMapping
+	public ResponseEntity<CustomerResponse> updateCustomer(@ApiParam(value = "Customer Info", required = true) @Valid @RequestBody CustomerRequest customer) {
+		String methodName = "updateCustomer";
+		String email = getEmailFromToken();
+		Customer customerTobeUpdated = CustomerMapper.buildCustomerForUpdateCustomer(email, customer);
+		Customer updatedCustomer = customerService.updateCustomer(customerTobeUpdated);
+		CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(updatedCustomer, customerUpdatedSuccessfully);
+		log.info(methodName, gson.toJson(customerResponse));
+		return new ResponseEntity<>(customerResponse, HttpStatus.OK);
+	}
+
+	/**
+	 *
+	 * <pre>
+	 * <b>Description : </b>
+	 * Delete Customer for a specific Email ID.
+	 *
+	 * &#64;param email
+	 * &#64;return
+	 * </pre>
+	 */
+	@ApiOperation(value = "Api to delete a customer given by Customer Email", response = CustomerResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Customer retrived successfully"), @ApiResponse(code = 401, message = "You are not authorized to delete customer details"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Customer you are trying to delete is not available") })
+	@DeleteMapping
+	public ResponseEntity<CustomerResponse> deleteCustomer() {
+		String methodName = "deleteCustomer";
+		String email = getEmailFromToken();
+		Customer deleteCustomer = customerService.deleteCustomer(email);
+		CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(deleteCustomer, customerDeletedSuccessfully);
+		log.info(methodName, gson.toJson(customerResponse));
+		return new ResponseEntity<>(customerResponse, HttpStatus.OK);
+	}
+
+	/**
+	 *
+	 * <pre>
+	 * <b>Description : </b>
+	 * Get Customers for a specific status.
+	 *
+	 * &#64;param status
+	 * &#64;return
+	 * </pre>
+	 */
+	@ApiOperation(value = "Api to get list of customers by Customer Status", response = CustomerResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Customer list retrived successfully"), @ApiResponse(code = 401, message = "You are not authorized to retrived customer list details"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Customer you are trying to retrived is not available") })
+	@GetMapping("/getByStatus/{status}")
+	public ResponseEntity<List<CustomerResponse>> getCustomers(@Valid @PathVariable("status") String status) {
+		String methodName = "getCustomers";
+		CustomerMapper.validateStatus(status);
+		List<Customer> customer = customerService.getCustomers(status);
+		List<CustomerResponse> customerResponseList = CustomerMapper.buildCustomerResponseList(customer);
+		log.info(methodName, gson.toJson(customerResponseList));
+		return new ResponseEntity<>(customerResponseList, HttpStatus.OK);
+	}
+
+	/**
+	 *
+	 * <pre>
+	 * <b>Description : </b>
+	 * Get Customer ID for a specific Email ID.
+	 *
+	 * &#64;param email
+	 * &#64;return
+	 * </pre>
+	 */
+	@ApiOperation(value = "Api to get customerID given by Customer Email", hidden = true)
+	/*
+	 * @ApiResponses(value = { @ApiResponse(code = 200, message = "Customer retrived successfully"),
+	 * 
+	 * @ApiResponse(code = 401, message = "You are not authorized to retrived customer details"),
+	 * 
+	 * @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+	 * 
+	 * @ApiResponse(code = 404, message = "Customer you are trying to retrived is not available") })
+	 */
+	@GetMapping(value = "/getCustomerId", headers = X_ACCESS_TOKEN)
+	public ResponseEntity<CustomerIdResponse> getCustomerWithId(@RequestHeader(X_ACCESS_TOKEN) String oauthToken) {
+		String methodName = "getCustomerWithId";
+		String email = getEmailFromToken();
+		Customer foundCustomer = customerService.getCustomerForId(email);
+		CustomerIdResponse customerResponse = CustomerMapper.mapCustomerToCustomerIdResponse(foundCustomer);
+		log.info(methodName, gson.toJson(customerResponse));
+		return new ResponseEntity<>(customerResponse, HttpStatus.OK);
+	}
+
+	/**
+	 *
+	 * <pre>
+	 * <b>Description : </b>
+	 * getEmailFromToken.
+	 *
+	 * &#64;return
+	 * </pre>
+	 */
+	private String getEmailFromToken() {
+		return CustomerMapper.getEmailFromToken((OAuthUser) httpSession.getAttribute(X_USER_INFO));
+	}
 }

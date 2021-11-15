@@ -26,11 +26,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString
 @Table(name = "review_rating")
 @ApiModel(value = "Review", description = "Review details")
 @Cacheable
@@ -38,7 +40,12 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(value = { "likeCount", "dislikeCount" }, allowSetters = true)
 public class Review implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6941865636425603343L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "review_id", nullable = false)
     @ApiModelProperty(required = true, notes = "Id of the review")

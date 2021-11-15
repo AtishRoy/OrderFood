@@ -43,7 +43,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 /**
- * @author Ranjith Ranganathan
+ * $Author: Atish Roy
  *
  */
 @RefreshScope

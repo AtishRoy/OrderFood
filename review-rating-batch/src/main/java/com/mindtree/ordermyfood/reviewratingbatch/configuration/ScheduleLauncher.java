@@ -19,9 +19,8 @@ public class ScheduleLauncher {
 	private JobOperator jobOperator;
 
 	@Scheduled(cron = "0 * * * * ?")
-	public void runJob() throws NoSuchJobException, JobParametersNotFoundException, JobRestartException,
-			JobExecutionAlreadyRunningException, JobInstanceAlreadyCompleteException, UnexpectedJobExecutionException,
-			JobParametersInvalidException, InterruptedException {
+	public void runJob() throws NoSuchJobException, JobParametersNotFoundException, JobRestartException, JobExecutionAlreadyRunningException, JobInstanceAlreadyCompleteException,
+			UnexpectedJobExecutionException, JobParametersInvalidException, InterruptedException {
 		this.jobOperator.startNextInstance("reviewandratingjob");
 
 	}

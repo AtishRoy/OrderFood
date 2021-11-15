@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Document(indexName = "subcategory", shards = 1, replicas = 0, refreshInterval = "5s", createIndex = false)
@@ -18,7 +19,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class SubCategory implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8405024480156314227L;
 	@ApiModelProperty(notes = "Name of the category")
 	private String subCategoryName;
 	@ApiModelProperty(notes = "List of items")

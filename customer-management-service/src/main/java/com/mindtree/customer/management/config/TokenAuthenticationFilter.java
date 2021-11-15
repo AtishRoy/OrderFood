@@ -23,8 +23,7 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
 	private static final String X_USER_INFO = "X_USER_INFO"; // Holds user info like email, name etc..
 
 	@Override
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
 
 		final HttpServletRequest httpRequest = (HttpServletRequest) request;
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;

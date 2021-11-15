@@ -6,7 +6,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class InvalidRestaurantIdFormatException extends RuntimeException {
 
-    public InvalidRestaurantIdFormatException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 282532761940537108L;
+
+	public InvalidRestaurantIdFormatException(String message) {
         super(message);
     }
 }

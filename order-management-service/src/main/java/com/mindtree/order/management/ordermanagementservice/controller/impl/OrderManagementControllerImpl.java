@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Import;
-import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
@@ -51,9 +50,6 @@ public class OrderManagementControllerImpl implements OrderManagementController 
 
 	@Autowired
 	private OrderManagementService orderManagementService;
-
-	@Autowired
-	private EntityLinks entityLinks;
 
 	@Override
 	@ApiOperation(value = "Fetch order by order ID", response = OrderDTO.class)

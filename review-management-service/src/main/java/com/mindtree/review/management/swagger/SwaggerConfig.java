@@ -12,7 +12,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @author Ranjith Ranganathan
+ * $Author: Atish Roy
  *
  */
 @Configuration
@@ -28,8 +28,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         ApiInfoBuilder builder = new ApiInfoBuilder();
-        Contact contact = new Contact("Ranjith Ranganathan", "https://www.mindtree.com/",
-            "ranjith.ranganathan@mindtree.com");
+        Contact contact = new Contact("Atish Roy", "https://www.atish.roy/", "atish.roy@gmail.com");
         return builder.contact(contact).description("APIs for providing reviews for restaurant")
             .license("Apache License Version 2.0").licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
             .version("1.0").title("Review Management API").build();

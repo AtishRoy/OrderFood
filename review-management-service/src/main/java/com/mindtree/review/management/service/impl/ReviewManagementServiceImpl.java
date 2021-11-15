@@ -22,6 +22,7 @@ import com.mindtree.review.management.repository.ReviewManagementRepository;
 import com.mindtree.review.management.service.ReviewManagementService;
 
 @Service
+@SuppressWarnings("deprecation")
 public class ReviewManagementServiceImpl implements ReviewManagementService {
 
 	@Autowired
@@ -253,7 +254,7 @@ public class ReviewManagementServiceImpl implements ReviewManagementService {
             }
         }
 	}
-	
+	@SuppressWarnings("rawtypes")
 	private void removeCacheValues(Review review) {
 		reviewMap().remove(review.getReviewId());
 		
