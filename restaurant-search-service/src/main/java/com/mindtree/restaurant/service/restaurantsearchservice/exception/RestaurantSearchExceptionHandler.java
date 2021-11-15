@@ -15,16 +15,14 @@ public class RestaurantSearchExceptionHandler extends ResponseEntityExceptionHan
 	@ExceptionHandler(NoRecordsFoundException.class)
 	public ResponseEntity<ExceptionResponse> resourceNotFound(java.lang.Exception ex, WebRequest request) {
 		HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), httpStatus.value(),
-				httpStatus.getReasonPhrase(), ex.getMessage(), request.getDescription(false));
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), httpStatus.value(), httpStatus.getReasonPhrase(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(exceptionResponse, httpStatus);
 	}
 
 	@ExceptionHandler(InvalidRequestException.class)
 	public ResponseEntity<ExceptionResponse> invalidRequest(java.lang.Exception exception, WebRequest request) {
 		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), httpStatus.value(),
-				httpStatus.getReasonPhrase(), exception.getMessage(), request.getDescription(false));
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), httpStatus.value(), httpStatus.getReasonPhrase(), exception.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(exceptionResponse, httpStatus);
 	}
 

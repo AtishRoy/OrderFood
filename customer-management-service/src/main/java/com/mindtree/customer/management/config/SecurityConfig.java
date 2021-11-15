@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	/*@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 
@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
 		http.csrf().disable();
 	}*/
-    
+
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         final TokenAuthenticationFilter tokenFilter = new TokenAuthenticationFilter();

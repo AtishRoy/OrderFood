@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,16 +36,16 @@ import com.mindtree.customer.management.serviceimpl.CustomerServiceImpl;
  * <pre>
  * <b>Description : </b>
  * <<WRITE DESCRIPTION HERE>>
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-25 01:40:37 AM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @RunWith(SpringRunner.class)
 //@WebAppConfiguration
 @SpringBootTest(classes = CustomerManagementServiceApplication.class)
 public class CustomerControllerTest {
-    
+
     @Autowired
     private WebApplicationContext context;
 
@@ -54,13 +55,13 @@ public class CustomerControllerTest {
     public void setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
-    
+
     @Autowired
     MappingJackson2HttpMessageConverter jacksonConverter;
-    
+
     @MockBean
     public CustomerServiceImpl service;
-    
+
     @TestConfiguration
     public class ModifyCustomerManagementServiceTestContextConfiguration {
         @Bean
@@ -68,7 +69,7 @@ public class CustomerControllerTest {
             return service;
         }
     }
-    
+
     @Test
     public void testAddCustomer() {
         Customer customer = new Customer(1L, "firstname", "lastName", "email", "1243243598", new Date(),
@@ -76,37 +77,37 @@ public class CustomerControllerTest {
             new Date());
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "2443543531", "22-10-1989", "address", "land",
             "area", "city", "state", "+12.123456", "+12.123456", "123456", "asdwfe");
-        Mockito.when(service.addCustomer(Mockito.any(Customer.class))).thenReturn(customer);
+        Mockito.when(service.addCustomer(ArgumentMatchers.any(Customer.class))).thenReturn(customer);
         MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
         request.body(convertToJson(customerReq));
         request.header("Content-Type", "application/json");
         request.when().post("/customer/").then().statusCode(201);
     }
-    
+
     @Test
     public void testGetCustomer() {
         Customer customer = new Customer(1L, "firstname", "lastName", "email", "1243243598", new Date(),
             new Address(1L, "address", "landmark", "area", "city", "state", "+12.345623", "-12.345623", "123456"), "ACTIVE",
             new Date());
-        Mockito.when(service.getCustomer(Mockito.anyString())).thenReturn(customer);
+        Mockito.when(service.getCustomer(ArgumentMatchers.anyString())).thenReturn(customer);
         MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
         request.header("Content-Type", "application/json");
         request.when().get("/customer/").then().statusCode(200);
     }
-    
+
     @Test
     public void testGetCustomers() {
         Customer customer = new Customer(1L, "firstname", "lastName", "email", "1243243598", new Date(),
             new Address(1L, "address", "landmark", "area", "city", "state", "+12.345623", "-12.345623", "123456"), "ACTIVE",
             new Date());
-        List<Customer> list = new ArrayList<Customer>();
+        List<Customer> list = new ArrayList<>();
         list.add(customer);
-        Mockito.when(service.getCustomers(Mockito.anyString())).thenReturn(list);
+        Mockito.when(service.getCustomers(ArgumentMatchers.anyString())).thenReturn(list);
         MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
         request.header("Content-Type", "application/json");
         request.when().get("/customer/getByStatus/{status}", "ACTIVE").then().statusCode(200);
     }
-    
+
     @Test
     public void testUpdateCustomer() {
         Customer customer = new Customer(1L, "firstname", "lastName", "email", "1243243598", new Date(),
@@ -114,37 +115,37 @@ public class CustomerControllerTest {
             new Date());
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "2443543531", "22-10-1989", "address", "land",
             "area", "city", "state", "+12.123456", "+12.123456", "123456", "dshiwf384");
-        Mockito.when(service.updateCustomer(Mockito.any(Customer.class))).thenReturn(customer);
+        Mockito.when(service.updateCustomer(ArgumentMatchers.any(Customer.class))).thenReturn(customer);
         MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
         request.body(convertToJson(customerReq));
         request.header("Content-Type", "application/json");
         request.when().put("/customer/").then().statusCode(200);
     }
-    
+
     @Test
     public void testDeleteCustomer() {
         Customer customer = new Customer(1L, "firstname", "lastName", "email", "1243243598", new Date(),
             new Address(1L, "address", "landmark", "area", "city", "state", "+12.345623", "-12.345623", "123456"), "ACTIVE",
             new Date());
-        Mockito.when(service.deleteCustomer(Mockito.anyString())).thenReturn(customer);
+        Mockito.when(service.deleteCustomer(ArgumentMatchers.anyString())).thenReturn(customer);
         MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
         request.header("Content-Type", "application/json");
         request.when().delete("/customer/").then().statusCode(200);
     }
-    
+
     @Test
     public void testGetCustomerWithId() {
         Customer customer = new Customer(1L, "firstname", "lastName", "email", "1243243598", new Date(),
             new Address(1L, "address", "landmark", "area", "city", "state", "+12.345623", "-12.345623", "123456"), "ACTIVE",
             new Date());
-        Mockito.when(service.getCustomer(Mockito.anyString())).thenReturn(customer);
+        Mockito.when(service.getCustomer(ArgumentMatchers.anyString())).thenReturn(customer);
         MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
         request.header("Content-Type", "application/json");
         request.header("X-ACCESS-TOKEN", "token");
         request.when().get("/customer/getCustomerId").then().statusCode(200);
     }
-    
-    
+
+
     private String convertToJson(CustomerRequest customer) {
 
         MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
@@ -162,5 +163,5 @@ public class CustomerControllerTest {
         return null;
 
     }
-    
+
 }

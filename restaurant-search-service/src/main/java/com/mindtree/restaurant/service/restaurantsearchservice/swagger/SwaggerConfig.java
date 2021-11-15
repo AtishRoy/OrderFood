@@ -17,19 +17,16 @@ public class SwaggerConfig {
 
 	@Bean
 	public Docket restaurantApi() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.mindtree.restaurant.service.restaurantsearchservice"))
-				//.paths(PathSelectors.ant("/*"))
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("com.mindtree.restaurant.service.restaurantsearchservice"))
+				// .paths(PathSelectors.ant("/*"))
 				.build().apiInfo(apiInfo());
 
 	}
 
 	private ApiInfo apiInfo() {
 		ApiInfoBuilder builder = new ApiInfoBuilder();
-		Contact contact = new Contact("Vinod Kumar", "https://www.mindtree.com/",
-				"vinod.kumar3@mindtree.com");
-		ApiInfo apiInfo = builder.contact(contact).description("APIs for searching restaurants")
-				.license("Apache License Version 2.0").licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
+		Contact contact = new Contact("Vinod Kumar", "https://www.mindtree.com/", "vinod.kumar3@mindtree.com");
+		ApiInfo apiInfo = builder.contact(contact).description("APIs for searching restaurants").license("Apache License Version 2.0").licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
 				.version("1.0").title("Search Restaurants System API").build();
 		return apiInfo;
 	}

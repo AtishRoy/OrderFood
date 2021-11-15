@@ -20,33 +20,32 @@ import com.mindtree.restaurant.service.restaurantsearchservice.vo.SearchRestaura
 @Component
 public class SearchResponseBuilder {
 
-    public SearchRestaurantResponseVO buildResponse(List<Restaurant> restaurantList, HttpStatus noContent, String status,
-        String message) {
-        SearchRestaurantResponseVO responseVO = new SearchRestaurantResponseVO();
-        responseVO.setNumberOfRecords(String.valueOf(restaurantList.size()));
-        responseVO.setStatusCode(noContent.toString());
-        responseVO.setStatus(status);
-        responseVO.setMessage(message);
-        List<RestaurantVO> restaurantVOList = new ArrayList<>();
-        for (Restaurant restaurantReq : restaurantList) {
-            RestaurantVO rest = new RestaurantVO();
-            rest.setRestaurantId(restaurantReq.getRestaurantId());
-            rest.setRestaurantName(restaurantReq.getName());
-            rest.setRestaurantCategory(buildCategory(restaurantReq.getCategoryList()));
-            rest.setRestaurantOpeningTime(restaurantReq.getOpeningTime());
-            rest.setRestaurantClosingTime(restaurantReq.getClosingTime());
-            rest.setRestaurantRating(String.valueOf(restaurantReq.getOverallRating()));
-            rest.setWebsiteLink(restaurantReq.getWebsiteLink());
-            rest.setPhoneNumber(restaurantReq.getPhoneNumber());
-            rest.setAverageCostForTwo(String.valueOf(restaurantReq.getBudget()));
-            rest.setCuisinesAvailble(buildCuisines(restaurantReq.getCuisineList()));
-            rest.setRestaurantAddress(buildRestaurantAddress(restaurantReq.getAddress()));
-            rest.setItemsAvailableList(buildItems(restaurantReq.getCategoryList()));
-            restaurantVOList.add(rest);
-        }
-        responseVO.setRestaurantDetails(restaurantVOList);
-        return responseVO;
-    }
+	public SearchRestaurantResponseVO buildResponse(List<Restaurant> restaurantList, HttpStatus noContent, String status, String message) {
+		SearchRestaurantResponseVO responseVO = new SearchRestaurantResponseVO();
+		responseVO.setNumberOfRecords(String.valueOf(restaurantList.size()));
+		responseVO.setStatusCode(noContent.toString());
+		responseVO.setStatus(status);
+		responseVO.setMessage(message);
+		List<RestaurantVO> restaurantVOList = new ArrayList<>();
+		for (Restaurant restaurantReq : restaurantList) {
+			RestaurantVO rest = new RestaurantVO();
+			rest.setRestaurantId(restaurantReq.getRestaurantId());
+			rest.setRestaurantName(restaurantReq.getName());
+			rest.setRestaurantCategory(buildCategory(restaurantReq.getCategoryList()));
+			rest.setRestaurantOpeningTime(restaurantReq.getOpeningTime());
+			rest.setRestaurantClosingTime(restaurantReq.getClosingTime());
+			rest.setRestaurantRating(String.valueOf(restaurantReq.getOverallRating()));
+			rest.setWebsiteLink(restaurantReq.getWebsiteLink());
+			rest.setPhoneNumber(restaurantReq.getPhoneNumber());
+			rest.setAverageCostForTwo(String.valueOf(restaurantReq.getBudget()));
+			rest.setCuisinesAvailble(buildCuisines(restaurantReq.getCuisineList()));
+			rest.setRestaurantAddress(buildRestaurantAddress(restaurantReq.getAddress()));
+			rest.setItemsAvailableList(buildItems(restaurantReq.getCategoryList()));
+			restaurantVOList.add(rest);
+		}
+		responseVO.setRestaurantDetails(restaurantVOList);
+		return responseVO;
+	}
 
 	private String buildCategory(Collection<Category> categoryList) {
 		StringBuilder builder = new StringBuilder();

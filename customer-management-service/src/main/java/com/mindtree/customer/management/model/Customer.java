@@ -32,9 +32,9 @@ import lombok.NoArgsConstructor;
  * <pre>
  * <b>Description : </b>
  * Customer.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-23 05:53:35 PM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @Data
@@ -44,9 +44,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "customer")
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@ApiModel(value = "Customer", description = "Customer details") 
+@ApiModel(value = "Customer", description = "Customer details")
 public class Customer implements Serializable {
-    
+
 	/**
 	 * CustomerID.
 	 */
@@ -55,7 +55,7 @@ public class Customer implements Serializable {
 	@Column(name = "customer_id")
 	@ApiModelProperty(required = true, notes = "Id of the Customer")
 	private Long customerId;
-	
+
 	/**
 	 * FirstName.
 	 */
@@ -63,7 +63,7 @@ public class Customer implements Serializable {
 	@NotBlank(message = "Customer First Name cannot be null")
 	@ApiModelProperty(required = true, notes = "First Name of the Customer")
 	private String firstName;
-	
+
 	/**
 	 * LastName.
 	 */
@@ -71,7 +71,7 @@ public class Customer implements Serializable {
 	@NotBlank(message = "Customer Last Name cannot be null")
 	@ApiModelProperty(required = true, notes = "Last Name of the Customer")
 	private String lastName;
-	
+
 	/**
 	 * Email.
 	 */
@@ -79,7 +79,7 @@ public class Customer implements Serializable {
 	@NotBlank(message = "Customer Email cannot be null")
 	@ApiModelProperty(required = true, notes = "Email of the Customer")
 	private String email;
-	
+
 	/**
 	 * PhoneNumber.
 	 */
@@ -87,14 +87,14 @@ public class Customer implements Serializable {
 	@NotBlank(message = "Customer Phone Number cannot be null")
 	@ApiModelProperty(required = true, notes = "Phone Number of the Customer")
 	private String phoneNumber;
-	
+
 	/**
 	 * DateOfBirth.
 	 */
 	@Column(name = "date_of_birth", nullable = true)
 	@ApiModelProperty(required = false, notes = "DOB of the Customer")
 	private Date dateOfBirth;
-	
+
 	/**
 	 * Addresses.
 	 */
@@ -111,7 +111,7 @@ public class Customer implements Serializable {
 	@Column(name = "status", nullable = false)
 	@ApiModelProperty(required = true, notes = "Status of the Customer")
 	private String status;
-	
+
 	/**
 	 * AccountCreationDate.
 	 */
@@ -120,5 +120,5 @@ public class Customer implements Serializable {
 	@Column(name = "creation_date", nullable = false)
 	@ApiModelProperty(required = true, notes = "Creation Date of the Customer Account")
 	private Date createdDate;
-	
+
 }

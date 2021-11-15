@@ -14,8 +14,7 @@ public class CustomerManagementFallback implements CustomerManagementProxy {
 	public ResponseEntity<CustomerIdResponse> getCustomerWithId(String token) {
 		CustomerIdResponse customerResponse = new CustomerIdResponse();
 		customerResponse.setCustomerId("-1");
-		ResponseEntity<CustomerIdResponse> response = new ResponseEntity<CustomerIdResponse>(customerResponse,
-				HttpStatus.OK);
+		ResponseEntity<CustomerIdResponse> response = new ResponseEntity<>(customerResponse, HttpStatus.OK);
 		return response;
 	}
 

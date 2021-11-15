@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mindtree.zuulapigatewayserver.exception;
 
@@ -27,6 +27,6 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), httpStatus.value(),
 				httpStatus.getReasonPhrase(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(exceptionResponse, httpStatus);
-	}	
-	
+	}
+
 }

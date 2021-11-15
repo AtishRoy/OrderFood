@@ -34,77 +34,76 @@ import com.mindtree.order.management.ordermanagementservice.service.OrderManagem
 @Service
 @RefreshScope
 public class OrderManagementServiceImpl implements OrderManagementService {
-	
+
 	@Value("${REQUESTED.ORDER.NOT.FOUND}")
-    private String requestedOrderNotFound;
-	
+	private String requestedOrderNotFound;
+
 	@Value("${NO.RECORDS.FOUND}")
 	private String noRecordsFound;
-	
+
 	@Value("${DUPLICATE.ITEM.EXCEPTION}")
 	private String duplicateItemException;
-	
+
 	@Value("${TOO.MANY.ITEMS}")
 	private String tooManyItems;
-	
+
 	@Value("${NO.ORDERIDS.FOUND}")
 	private String noOrderIDsFound;
-	
+
 	@Value("${REQUESTED.ORDER.NOT.FOUND.IN.REQUIRED.RESTAURANT}")
 	private String reqOrderNotFoundInReqRest;
-	
+
 	@Value("${CANNOT.UPDATE.CANCELLED.ORDER}")
 	private String cannotUpdateCancelledOrder;
-	
+
 	@Value("${COULDNOT.UPDATE.ORDER}")
 	private String couldnotUpdateOrder;
-	
+
 	@Value("${ORDER.ALREADY.CANCELLED}")
 	private String orderAlreadyCancelled;
-	
+
 	@Value("${COULDNOT.CANCEL.ORDER}")
 	private String couldnotCancelOrder;
-	
+
 	@Value("${ORDER.CANCELLED.SUCCESSFULLY}")
 	private String orderCancelledSuccessfully;
-	
+
 	@Value("${TOTAL.ORDER.QUANTITY.LIMIT}")
 	private String totalOrderQuantityLimit;
-	
+
 	@Value("${REQUESTED.RESTAURANT.NOT.FOUND}")
 	private String requestedRestuarantNotFound;
-	
+
 	@Value("${HAZELCAST.CACHE.SWITCH}")
 	private String hazelcastCacheSwitch;
-	
-	public String getHazelcastCacheSwitch() {
-        return hazelcastCacheSwitch;
-    }
 
-    public void setHazelcastCacheSwitch(final String hazelcastCacheSwitchParam) {
-        this.hazelcastCacheSwitch = hazelcastCacheSwitchParam;
-    }
-	
+	public String getHazelcastCacheSwitch() {
+		return hazelcastCacheSwitch;
+	}
+
+	public void setHazelcastCacheSwitch(final String hazelcastCacheSwitchParam) {
+		this.hazelcastCacheSwitch = hazelcastCacheSwitchParam;
+	}
+
 	@Autowired
 	private OrderManagementRepository orderManagementRepository;
 
 	@Autowired
 	public HazelcastInstance hazelcastInstance;
-	
+
 	@Autowired
 	private CustomerManagementProxy customerManagementProxy;
-	
-	@Autowired
-    private HttpSession httpSession; 
 
-	private static final String X_ACCESS_TOKEN = "X-ACCESS-TOKEN"; 
-	
+	@Autowired
+	private HttpSession httpSession;
+
+	private static final String X_ACCESS_TOKEN = "X-ACCESS-TOKEN";
+
 	public Long getCustomerIdFromCustomerService() {
 		ResponseEntity<CustomerIdResponse> response = null;
 		response = customerManagementProxy.getCustomerWithId((String) httpSession.getAttribute(X_ACCESS_TOKEN));
 		if (response == null || response.getBody() == null) {
-			throw new OrderNotFoundException(
-					"Couldnt find the customer! This customer has not registered or is an inactive customer");
+			throw new OrderNotFoundException("Couldnt find the customer! This customer has not registered or is an inactive customer");
 		}
 		String id = response.getBody().getCustomerId();
 		Long customerId = new Long(id);
@@ -113,29 +112,28 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		}
 		return customerId;
 	}
-	
+
 	public IMap<String, Order> orderMap() {
 		return hazelcastInstance.getMap("order");
 	}
-	
+
 	public IMap<String, List<Order>> orderCustMap() {
 		return hazelcastInstance.getMap("customer");
 	}
-	
+
 	public IMap<String, List<Order>> orderCustRestMap() {
 		return hazelcastInstance.getMap("custRest");
 	}
-	
+
 	public IMap<String, List<Order>> orderRestMap() {
 		return hazelcastInstance.getMap("restaurant");
 	}
-	
+
+	@Override
 	public Order fetchOrder(long id) {
-		if("TRUE".equalsIgnoreCase(hazelcastCacheSwitch) 
-				&& orderMap().containsKey(String.valueOf(id))) {
+		if ("TRUE".equalsIgnoreCase(hazelcastCacheSwitch) && orderMap().containsKey(String.valueOf(id))) {
 			return orderMap().get(String.valueOf(id));
-		}
-		else {
+		} else {
 			Order order = orderManagementRepository.findByOrderId(id);
 			if (order == null) {
 				throw new OrderNotFoundException(requestedOrderNotFound);
@@ -144,14 +142,13 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		}
 	}
 
+	@Override
 	public List<Order> fetchAllOrders(Integer pageNumber, Integer count) {
 		Long customerId = getCustomerIdFromCustomerService();
-		if(pageNumber == null && count == null && "TRUE".equalsIgnoreCase(hazelcastCacheSwitch) 
-				&& orderCustMap().containsKey(String.valueOf(customerId))) {
+		if (pageNumber == null && count == null && "TRUE".equalsIgnoreCase(hazelcastCacheSwitch) && orderCustMap().containsKey(String.valueOf(customerId))) {
 			List<Order> list = orderCustMap().get(String.valueOf(customerId));
 			return list;
-		}
-		else {
+		} else {
 			return returnAllOrders(customerId, pageNumber, count);
 		}
 	}
@@ -160,8 +157,7 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		List<Order> orders = null;
 		if (pageNumber == null && count == null) {
 			orders = orderManagementRepository.findByCustomerId(customerId, null);
-		}
-		else {
+		} else {
 			orders = orderManagementRepository.findByCustomerId(customerId, new PageRequest(pageNumber, count));
 		}
 		if (orders == null || orders.isEmpty()) {
@@ -172,17 +168,15 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		}
 		return orders;
 	}
-	
+
+	@Override
 	public List<Order> fetchOrdersOfCustomerByRestaurantId(String id) {
 		Long customerId = getCustomerIdFromCustomerService();
-		StringBuilder builder = new StringBuilder()
-				.append(String.valueOf(id)).append("CR").append(String.valueOf(customerId));
-		if("TRUE".equalsIgnoreCase(hazelcastCacheSwitch) 
-				&& orderCustRestMap().containsKey(builder.toString())) {
+		StringBuilder builder = new StringBuilder().append(String.valueOf(id)).append("CR").append(String.valueOf(customerId));
+		if ("TRUE".equalsIgnoreCase(hazelcastCacheSwitch) && orderCustRestMap().containsKey(builder.toString())) {
 			List<Order> list = orderCustRestMap().get(builder.toString());
 			return list;
-		}
-		else {
+		} else {
 			List<Order> orders = orderManagementRepository.findByRestaurantIdAndCustomerId(id, customerId);
 			if (orders == null || orders.isEmpty()) {
 				throw new OrderNotFoundException(requestedOrderNotFound);
@@ -190,18 +184,16 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			return orders;
 		}
 	}
-	
+
+	@Override
 	public List<Order> fetchOrdersByRestaurantId(String id, Integer pageNumber, Integer count) {
-		if (pageNumber == null && count == null && "TRUE".equalsIgnoreCase(hazelcastCacheSwitch)
-				&& orderRestMap().containsKey(String.valueOf(id))) {
+		if (pageNumber == null && count == null && "TRUE".equalsIgnoreCase(hazelcastCacheSwitch) && orderRestMap().containsKey(String.valueOf(id))) {
 			return orderRestMap().get(String.valueOf(id));
-		}
-		else {
+		} else {
 			List<Order> orders = null;
 			if (pageNumber == null && count == null) {
-				 orders = orderManagementRepository.findByRestaurantId(id, null);
-			}
-			else {
+				orders = orderManagementRepository.findByRestaurantId(id, null);
+			} else {
 				orders = orderManagementRepository.findByRestaurantId(id, new PageRequest(pageNumber, count));
 			}
 			if (orders == null || orders.isEmpty()) {
@@ -213,7 +205,8 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			return orders;
 		}
 	}
-	
+
+	@Override
 	@Transactional
 	public Order placeOrder(Order order) {
 		order.setOrderId(getRandomValueForOrderId());
@@ -236,33 +229,29 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 	private void populateCacheMap(Order orderResponse) {
 		orderMap().put(String.valueOf(orderResponse.getOrderId()), orderResponse);
 		if (!orderCustMap().containsKey(String.valueOf(orderResponse.getCustomerId()))) {
-			List<Order> orders = new ArrayList<Order>();
+			List<Order> orders = new ArrayList<>();
 			orders.add(orderResponse);
 			orderCustMap().put(String.valueOf(orderResponse.getCustomerId()), orders);
-		}
-		else {
+		} else {
 			List<Order> list = orderCustMap().get(String.valueOf(orderResponse.getCustomerId()));
 			list.add(orderResponse);
 			orderCustMap().put(String.valueOf(orderResponse.getCustomerId()), list);
 		}
 		if (!orderRestMap().containsKey(String.valueOf(orderResponse.getRestaurantId()))) {
-			List<Order> orders = new ArrayList<Order>();
+			List<Order> orders = new ArrayList<>();
 			orders.add(orderResponse);
 			orderRestMap().put(String.valueOf(orderResponse.getRestaurantId()), orders);
-		}
-		else {
+		} else {
 			List<Order> list = orderRestMap().get(String.valueOf(orderResponse.getRestaurantId()));
 			list.add(orderResponse);
 			orderRestMap().put(String.valueOf(orderResponse.getRestaurantId()), list);
 		}
-		StringBuilder custRestId = new StringBuilder()
-				.append(orderResponse.getRestaurantId()).append("CR").append(orderResponse.getCustomerId());
+		StringBuilder custRestId = new StringBuilder().append(orderResponse.getRestaurantId()).append("CR").append(orderResponse.getCustomerId());
 		if (!orderCustRestMap().containsKey(custRestId.toString())) {
-			List<Order> orders = new ArrayList<Order>();
+			List<Order> orders = new ArrayList<>();
 			orders.add(orderResponse);
 			orderCustRestMap().put(custRestId.toString(), orders);
-		}
-		else {
+		} else {
 			List<Order> list = orderCustRestMap().get(custRestId.toString());
 			list.add(orderResponse);
 			orderCustRestMap().put(custRestId.toString(), list);
@@ -270,7 +259,7 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 	}
 
 	private void validateQuantityForTotalItems(Order order) {
-		Integer totalQuantity = 0;
+		int totalQuantity = 0;
 		for (Item item : order.getItemList()) {
 			totalQuantity = totalQuantity + item.getQuantity();
 		}
@@ -278,9 +267,9 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			throw new ItemsException(totalOrderQuantityLimit);
 		}
 	}
-	
+
 	private void checkForDuplicateValues(Order order) {
-		Set<String> itemNames = new HashSet<String>();
+		Set<String> itemNames = new HashSet<>();
 		for (Item item : order.getItemList()) {
 			itemNames.add(item.getItemName().toUpperCase().trim());
 		}
@@ -300,6 +289,7 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		order.setTransaction(transaction);
 	}
 
+	@Override
 	@Transactional
 	public Order updateOrder(Order order) {
 		if (order.getOrderId() == null) {
@@ -342,8 +332,7 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 				break;
 			}
 		}
-		StringBuilder custRestId = new StringBuilder().append(orderResponse.getRestaurantId()).append("CR")
-				.append(orderResponse.getCustomerId());
+		StringBuilder custRestId = new StringBuilder().append(orderResponse.getRestaurantId()).append("CR").append(orderResponse.getCustomerId());
 		List<Order> listCustRest = orderCustRestMap().get(custRestId.toString());
 		for (Order orderFromCache : listCustRest) {
 			if (orderFromCache.getOrderId().equals(orderResponse.getOrderId())) {
@@ -355,6 +344,7 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		}
 	}
 
+	@Override
 	public String cancelOrder(long id) {
 		Order order = fetchOrder(id);
 		if (order.getOrderStatus().equals(OrderStatusType.CANCELLED)) {
@@ -363,14 +353,13 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		int rowsAffected = orderManagementRepository.cancelOrderById(id, OrderStatusType.CANCELLED);
 		if (rowsAffected != 1) {
 			throw new OrderNotFoundException(couldnotCancelOrder);
-		}
-		else {
+		} else {
 			order.setOrderStatus(OrderStatusType.CANCELLED);
 			populateCacheAfterUpdateCall(order);
 		}
 		return orderCancelledSuccessfully;
 	}
-	
+
 	public long getRandomValueForOrderId() {
 		Random rand = new Random();
 		long num = rand.nextInt(9000000) + 1000000;

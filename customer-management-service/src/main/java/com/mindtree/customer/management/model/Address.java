@@ -24,9 +24,9 @@ import lombok.NoArgsConstructor;
  * <pre>
  * <b>Description : </b>
  * Address.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-23 05:53:35 PM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @Data
@@ -36,7 +36,7 @@ import lombok.NoArgsConstructor;
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "address")
-@ApiModel(value = "Address", description = "Address details") 
+@ApiModel(value = "Address", description = "Address details")
 public class Address implements Serializable {
 
 	/**
@@ -47,7 +47,7 @@ public class Address implements Serializable {
 	@Column(name = "address_id")
 	@ApiModelProperty(required = true, notes = "Id of the Address")
 	private Long addressId;
-	
+
 	/**
 	 * address.
 	 */
@@ -55,7 +55,7 @@ public class Address implements Serializable {
 	@NotBlank(message = "Address Line in Address cannot be null")
 	@ApiModelProperty(required = true, notes = "Address text of the Address")
 	private String address;
-	
+
 	/**
 	 * landmark.
 	 */
@@ -63,7 +63,7 @@ public class Address implements Serializable {
 	//@NotBlank(message = "Landmark in Address cannot be null")
 	@ApiModelProperty(required = false, notes = "Landmark of the Address")
 	private String landmark;
-	
+
 	/**
 	 * area.
 	 */
@@ -71,7 +71,7 @@ public class Address implements Serializable {
 	@NotBlank(message = "Area in Address cannot be null")
 	@ApiModelProperty(required = true, notes = "Area of the Address")
 	private String area;
-	
+
 	/**
 	 * city.
 	 */
@@ -79,7 +79,7 @@ public class Address implements Serializable {
 	@NotBlank
 	@ApiModelProperty(required = true, notes = "City of the Address")
 	private String city;
-	
+
 	/**
 	 * state.
 	 */
@@ -87,7 +87,7 @@ public class Address implements Serializable {
 	@NotBlank(message = "State in Address cannot be null")
 	@ApiModelProperty(required = true, notes = "State of the Address")
 	private String state;
-	
+
 	/**
 	 * latitude.
 	 */
@@ -95,7 +95,7 @@ public class Address implements Serializable {
     @NotBlank(message = "Latitude in Address cannot be null")
     @ApiModelProperty(required = true, notes = "Latitude of the Address")
 	private String latitude;
-	
+
 	/**
 	 * longitude.
 	 */
@@ -103,7 +103,7 @@ public class Address implements Serializable {
     @NotBlank(message = "Longitude in Address cannot be null")
     @ApiModelProperty(required = true, notes = "Longitude of the Address")
 	private String longitude;
-	
+
 	/**
 	 * pinCode.
 	 */
@@ -111,5 +111,5 @@ public class Address implements Serializable {
 	@NotBlank(message = "Pin Code in Address cannot be null")
 	@ApiModelProperty(required = true, notes = "Pin Code of the Address")
 	private String pinCode;
-	
+
 }

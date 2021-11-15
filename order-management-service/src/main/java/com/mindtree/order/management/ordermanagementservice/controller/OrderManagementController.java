@@ -28,8 +28,7 @@ public interface OrderManagementController {
 	public ResponseEntity<OrderDTO> fetchOrder(@PathVariable String id);
 
 	@GetMapping
-	public ResponseEntity<List<OrderDTO>> fetchAllOrders(@RequestParam("pageNumber") Integer pageNumber,
-			@RequestParam("count") Integer count);
+	public ResponseEntity<List<OrderDTO>> fetchAllOrders(@RequestParam("pageNumber") Integer pageNumber, @RequestParam("count") Integer count);
 
 	@PostMapping
 	public ResponseEntity<Object> placeOrder(@Valid @RequestBody RequestOrderDTO orderDetails);

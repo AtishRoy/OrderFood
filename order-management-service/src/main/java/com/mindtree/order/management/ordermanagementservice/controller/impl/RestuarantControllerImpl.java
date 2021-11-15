@@ -37,34 +37,33 @@ public class RestuarantControllerImpl implements RestuarantController {
 
 	@Autowired
 	private OrderManagementService orderManagementService;
-	
+
+	@Override
 	@ApiOperation(value = "Fetch order by restuarant ID", response = OrderDTO.class, responseContainer = "List")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Order returned successfully"),
-			@ApiResponse(code = 400, message = "The requested order is not found") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Order returned successfully"), @ApiResponse(code = 400, message = "The requested order is not found") })
 	@ApiParam(value = "Restuarant ID", name = "restuarant Id")
 	@GetMapping("/{id}")
-	public ResponseEntity<List<OrderDTO>> fetchOrdersByRestaurantId(@PathVariable String id,
-			@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+	public ResponseEntity<List<OrderDTO>> fetchOrdersByRestaurantId(@PathVariable String id, @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
 			@RequestParam(value = "count", required = false) Integer count) {
 		id = id.trim();
 		List<Order> orders = orderManagementService.fetchOrdersByRestaurantId(id, pageNumber, count);
-		List<OrderDTO> confirmOrders = new ArrayList<OrderDTO>();
+		List<OrderDTO> confirmOrders = new ArrayList<>();
 		for (Order order : orders) {
 			OrderDTO orderDTO = EntityDTOMapper.mapEntityToOrderDTO(order);
 			confirmOrders.add(orderDTO);
 		}
 		return new ResponseEntity<>(confirmOrders, HttpStatus.OK);
 	}
-	
+
+	@Override
 	@ApiOperation(value = "Fetch order by restuarant ID for the customer", response = OrderDTO.class, responseContainer = "List")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Order returned successfully"),
-			@ApiResponse(code = 400, message = "The requested order is not found") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Order returned successfully"), @ApiResponse(code = 400, message = "The requested order is not found") })
 	@ApiParam(value = "Restuarant ID", name = "restuarant Id")
-	@GetMapping(params="restuarantId" )
+	@GetMapping(params = "restuarantId")
 	public ResponseEntity<List<OrderDTO>> fetchOrdersForCustomerByRestaurantId(@RequestParam("restuarantId") String restuarantId) {
 		restuarantId = restuarantId.trim();
 		List<Order> orders = orderManagementService.fetchOrdersOfCustomerByRestaurantId(restuarantId);
-		List<OrderDTO> confirmOrders = new ArrayList<OrderDTO>();
+		List<OrderDTO> confirmOrders = new ArrayList<>();
 		for (Order order : orders) {
 			OrderDTO orderDTO = EntityDTOMapper.mapEntityToOrderDTO(order);
 			confirmOrders.add(orderDTO);

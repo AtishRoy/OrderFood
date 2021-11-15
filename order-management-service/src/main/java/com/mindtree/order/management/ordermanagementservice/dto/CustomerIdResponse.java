@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
  * <pre>
  * <b>Description : </b>
  * CustomerIdResponse.
- * 
- * @version $Revision: 1 $ $Date: 2018-09-24 10:50:55 PM $
- * @author $Author: nithya.pranesh $ 
+ *
+ * &#64;version $Revision: 1 $ $Date: 2018-09-24 10:50:55 PM $
+ * &#64;author $Author: nithya.pranesh $
  * </pre>
  */
 @Data
@@ -20,17 +20,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @ApiModel(value = "Customer ID Response", description = "Customer ID Response details")
 public class CustomerIdResponse {
-    
-    /**
-     * customerId.
-     */
-    @ApiModelProperty(notes = "customerId of the Customer")
-    private String customerId;
-    
-    /**
-     * email.
-     */
-    @ApiModelProperty(notes = "Email of the Customer")
-    private String email;
+
+	/**
+	 * customerId.
+	 */
+	@ApiModelProperty(notes = "customerId of the Customer")
+	private String customerId;
+
+	/**
+	 * email.
+	 */
+	@ApiModelProperty(notes = "Email of the Customer")
+	private String email;
 
 }

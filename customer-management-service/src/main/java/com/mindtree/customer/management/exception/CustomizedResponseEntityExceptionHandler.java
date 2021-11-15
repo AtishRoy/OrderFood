@@ -16,13 +16,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
- * 
+ *
  * <pre>
  * <b>Description : </b>
  * CustomizedResponseEntityExceptionHandler.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-25 02:33:55 AM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @ControllerAdvice
@@ -37,7 +37,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
         return new ResponseEntity<>(exceptionResponse, httpStatus);
     }
-    
+
     @ExceptionHandler(CustomerAlreadyExistsException.class)
     public final ResponseEntity<java.lang.Object> handleCustomerAlreadyFoundException(java.lang.Exception ex,
             WebRequest request) {
@@ -47,7 +47,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
         return new ResponseEntity<>(exceptionResponse, httpStatus);
     }
-    
+
     @ExceptionHandler(InvalidDateFormatException.class)
     public final ResponseEntity<java.lang.Object> handleInvalidDateFormatException(java.lang.Exception ex,
             WebRequest request) {
@@ -57,7 +57,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
         return new ResponseEntity<>(exceptionResponse, httpStatus);
     }
-    
+
     @ExceptionHandler(InvalidDataFormatException.class)
     public final ResponseEntity<java.lang.Object> handleInvalidDataFormatException(java.lang.Exception ex,
             WebRequest request) {
@@ -67,7 +67,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
         return new ResponseEntity<>(exceptionResponse, httpStatus);
     }
-    
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
         HttpHeaders headers, HttpStatus status, WebRequest request) {

@@ -31,23 +31,23 @@ import com.mindtree.customer.management.model.OAuthUser;
  * <pre>
  * <b>Description : </b>
  * CustomerMapper.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-23 09:36:35 AM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 public class CustomerMapper {
-    
+
     /**
      * log.
      */
     private static final Logger log = LoggerFactory.getLogger(CustomerMapper.class);
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * buildCustomerResponse.
-     * 
+     *
      * @param customer , not null.
      * @param message , not null.
      * @return customerResponse , never null.
@@ -79,11 +79,11 @@ public class CustomerMapper {
     }
 
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * covertDateToString.
-     * 
+     *
      * @param date , not null.
      * @return date , never null.
      * </pre>
@@ -92,13 +92,13 @@ public class CustomerMapper {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return dateFormat.format(date);
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * buildCustomerForUpdateCustomer.
-     * 
+     *
      * @param email , not null.
      * @param customerDto , not null.
      * @return customer , never null.
@@ -139,11 +139,11 @@ public class CustomerMapper {
     }
 
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * validateNAddPhoneNumber.
-     * 
+     *
      * @param phone , not null.
      * @param customer , not null.
      * </pre>
@@ -158,11 +158,11 @@ public class CustomerMapper {
     }
 
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * validateNAddPinCode.
-     * 
+     *
      * @param pin , not null.
      * @param address , not null.
      * </pre>
@@ -175,13 +175,13 @@ public class CustomerMapper {
             throw new InvalidDataFormatException("Pin code provided is in incorrect.");
         }
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * mapDob.
-     * 
+     *
      * @param customerDto , not null.
      * @param customer , not null.
      * </pre>
@@ -209,13 +209,13 @@ public class CustomerMapper {
                 "DOB date fromat provided is incorrect. Please provide date in dd-MM-yyyy format.");
         }
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * buildCustomerForNewCustomer.
-     * 
+     *
      * @param email , not null.
      * @param customerDto , not null.
      * @return customer , never null.
@@ -256,13 +256,13 @@ public class CustomerMapper {
         customer.setStatus(CustomerStatus.ACTIVE.name());
         return customer;
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * calculateYears.
-     * 
+     *
      * @param dateOfBirth , not null.
      * @return years , never null.
      * </pre>
@@ -290,18 +290,18 @@ public class CustomerMapper {
     }
 
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * buildCustomerResponseList.
-     * 
+     *
      * @param customerList , not null.
      * @return list , never null.
      * </pre>
      */
     public static List<CustomerResponse> buildCustomerResponseList(final List<Customer> customerList) {
         if (customerList != null && !customerList.isEmpty()) {
-            List<CustomerResponse> customerResponseList = new ArrayList<CustomerResponse>();
+            List<CustomerResponse> customerResponseList = new ArrayList<>();
             for (Customer customer : customerList) {
                 customerResponseList.add(buildCustomerResponse(customer, null));
             }
@@ -311,11 +311,11 @@ public class CustomerMapper {
     }
 
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * validateStatus.
-     * 
+     *
      * @param status , not null.
      * </pre>
      */
@@ -323,7 +323,7 @@ public class CustomerMapper {
         @Valid @NotNull(message = "Customer Status cannot be null or blank")
         @NotBlank(message = "Customer Status cannot be null or blank")
         @Pattern(regexp = "^[a-zA-Z]*$", message = "Invalid Status") final String status) {
-        
+
         if (status != null && (status.trim().equalsIgnoreCase(CustomerStatus.ACTIVE.name())
             || status.trim().equalsIgnoreCase(CustomerStatus.INACTIVE.name()))) {
             return;
@@ -332,13 +332,13 @@ public class CustomerMapper {
             throw new CustomerNotFoundException("Invalid Customer Status");
         }
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * getEmailFromToken.
-     * 
+     *
      * @param user , not null.
      * @return email , never null.
      * </pre>
@@ -352,13 +352,13 @@ public class CustomerMapper {
         }
         return "";
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * mapCustomerToCustomerIdResponse.
-     * 
+     *
      * @param foundCustomer , may be null.
      * @return customerIdResponse , may be null.
      * </pre>

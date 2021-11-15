@@ -12,11 +12,11 @@ public class MessageResourceConfig {
 
 	@Value("${zull.proxy.authentication.required}")
 	public String authenticationRequired;
-	
-	
+
+
 	@Value("${zull.proxy.token.expired}")
 	public String tokenExpired;
-	
+
 	@Value("${zull.proxy.invalid.token}")
 	public String invalidToken;
 

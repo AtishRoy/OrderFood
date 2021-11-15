@@ -28,8 +28,8 @@ import com.mindtree.customer.management.dto.CustomerRequest;
 import com.mindtree.customer.management.dto.CustomerResponse;
 import com.mindtree.customer.management.mapper.CustomerMapper;
 import com.mindtree.customer.management.model.Customer;
-import com.mindtree.customer.management.service.CustomerService;
 import com.mindtree.customer.management.model.OAuthUser;
+import com.mindtree.customer.management.service.CustomerService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,9 +41,9 @@ import io.swagger.annotations.ApiResponses;
  * <pre>
  * <b>Description : </b>
  * CustomerController.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-23 09:36:35 AM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @RefreshScope
@@ -52,41 +52,41 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "Customer Management", produces = MediaType.APPLICATION_JSON_VALUE, tags = {
 "Customer Management" }, description = "Api's for managing the Customer")
 public class CustomerController {
-	
+
     /**
      * customerService.
      */
     @Autowired
     private CustomerService customerService;
-    
+
     private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 
     private static final String X_USER_INFO = "X_USER_INFO";
-    
+
     private static final String X_ACCESS_TOKEN = "X-ACCESS-TOKEN";
 
     @Autowired
     private HttpSession httpSession;
-    
+
     @Value("${customer.management.customer.added.successfully}")
 	private String customerAddedSuccessfully;
-	
+
 	@Value("${customer.management.customer.retrieved.successfully}")
 	private String customerRetrievedSuccessfully;
-	
+
 	@Value("${customer.management.customer.updated.successfully}")
 	private String customerUpdatedSuccessfully;
-	
+
 	@Value("${customer.management.customer.deleted.successfully}")
 	private String customerDeletedSuccessfully;
-    
-    
+
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * Add Customer for a specific Email ID.
-     * 
+     *
      * @param customer
      * @return
      * </pre>
@@ -102,16 +102,16 @@ public class CustomerController {
         Customer customerVO = CustomerMapper.buildCustomerForNewCustomer(email, customer);
         Customer savedCustomer = customerService.addCustomer(customerVO);
         CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(savedCustomer, customerAddedSuccessfully);
-        return new ResponseEntity<CustomerResponse>(customerResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
     }
-    
-    
+
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * Get Customer for a specific Email ID.
-     * 
+     *
      * @param email
      * @return
      * </pre>
@@ -126,15 +126,15 @@ public class CustomerController {
         String email = getEmailFromToken();
         Customer foundCustomer = customerService.getCustomer(email);
         CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(foundCustomer, customerRetrievedSuccessfully);
-        return new ResponseEntity<CustomerResponse>(customerResponse, HttpStatus.OK);
+        return new ResponseEntity<>(customerResponse, HttpStatus.OK);
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * Update Customer for a specific Email ID.
-     * 
+     *
      * @param email
      * @param customer
      * @return
@@ -151,15 +151,15 @@ public class CustomerController {
         Customer customerTobeUpdated = CustomerMapper.buildCustomerForUpdateCustomer(email, customer);
         Customer updatedCustomer = customerService.updateCustomer(customerTobeUpdated);
         CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(updatedCustomer, customerUpdatedSuccessfully);
-        return new ResponseEntity<CustomerResponse>(customerResponse, HttpStatus.OK);
+        return new ResponseEntity<>(customerResponse, HttpStatus.OK);
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * Delete Customer for a specific Email ID.
-     * 
+     *
      * @param email
      * @return
      * </pre>
@@ -174,16 +174,16 @@ public class CustomerController {
         String email = getEmailFromToken();
         Customer deleteCustomer = customerService.deleteCustomer(email);
         CustomerResponse customerResponse = CustomerMapper.buildCustomerResponse(deleteCustomer, customerDeletedSuccessfully);
-        return new ResponseEntity<CustomerResponse>(customerResponse, HttpStatus.OK);
+        return new ResponseEntity<>(customerResponse, HttpStatus.OK);
     }
-    
-    
+
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * Get Customers for a specific status.
-     * 
+     *
      * @param status
      * @return
      * </pre>
@@ -198,15 +198,15 @@ public class CustomerController {
         CustomerMapper.validateStatus(status);
         List<Customer> customer =  customerService.getCustomers(status);
         List<CustomerResponse> customerResponseList = CustomerMapper.buildCustomerResponseList(customer);
-        return new ResponseEntity<List<CustomerResponse>>(customerResponseList, HttpStatus.OK);
+        return new ResponseEntity<>(customerResponseList, HttpStatus.OK);
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * Get Customer ID for a specific Email ID.
-     * 
+     *
      * @param email
      * @return
      * </pre>
@@ -221,15 +221,15 @@ public class CustomerController {
 		String email = getEmailFromToken();
 		Customer foundCustomer = customerService.getCustomerForId(email);
 		CustomerIdResponse customerResponse = CustomerMapper.mapCustomerToCustomerIdResponse(foundCustomer);
-		return new ResponseEntity<CustomerIdResponse>(customerResponse, HttpStatus.OK);
+		return new ResponseEntity<>(customerResponse, HttpStatus.OK);
 	}
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * getEmailFromToken.
-     * 
+     *
      * @return
      * </pre>
      */

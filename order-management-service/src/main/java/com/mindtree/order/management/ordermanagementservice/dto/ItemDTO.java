@@ -23,7 +23,7 @@ public class ItemDTO {
 	@ApiModelProperty(notes = "Item name")
 	@NotNull(message = "Item cannot be null")
 	@NotBlank(message = "Item cannot be blank")
-	@Size(min=1, max=50, message="Item name length should be between 1 and 50")
+	@Size(min = 1, max = 50, message = "Item name length should be between 1 and 50")
 	private String itemName;
 
 	@ApiModelProperty(notes = "Item Quantity")
@@ -31,7 +31,7 @@ public class ItemDTO {
 	@NotBlank(message = "Quantity cannot be blank")
 	@NotEmpty(message = "Quantity cannot be empty")
 	@Pattern(regexp = "^[0-9]*$", message = "Invalid Quanity")
-	@Range(min=1, max=500, message="Quantity cannot be 0 / Quantity cannot exceed 500")
+	@Range(min = 1, max = 500, message = "Quantity cannot be 0 / Quantity cannot exceed 500")
 	private String quantity;
-	
+
 }

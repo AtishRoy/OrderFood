@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mindtree.order.management.ordermanagementservice.model;
 
@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,18 +34,18 @@ public class Transaction implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
-	
-	@Column(name = "transaction_id", unique=true)
+
+	@Column(name = "transaction_id", unique = true)
 	private String transactionId;
-	
+
 	@Column(name = "payment_mode", nullable = false)
 	@NotNull(message = "Payment Mode cannot be null")
 	@Enumerated(EnumType.STRING)
 	private PaymentMode paymentMode;
-	
+
 	@Column(name = "payment_status", nullable = false)
 	@NotNull(message = "Payment Status cannot be null")
 	@Enumerated(EnumType.STRING)
 	private PaymentStatusType paymentStatus;
-	
+
 }

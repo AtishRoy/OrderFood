@@ -14,16 +14,16 @@ public class ConfirmOrderDTO {
 
 	@ApiModelProperty(notes = "Order Id")
 	private Long orderId;
-	
+
 	@ApiModelProperty(notes = "Order Id")
 	private String orderStatus;
-	
+
 	@ApiModelProperty(notes = "Transaction Id")
 	private String transactionId;
-	
+
 	@ApiModelProperty(notes = "Payment mode")
 	private String paymentMode;
-	
+
 	@ApiModelProperty(notes = "Payment status")
 	private String paymentStatus;
 

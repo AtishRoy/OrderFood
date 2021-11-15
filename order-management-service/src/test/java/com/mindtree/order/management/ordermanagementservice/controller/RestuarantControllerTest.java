@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +36,22 @@ import com.mindtree.order.management.ordermanagementservice.service.OrderManagem
 @EnableConfigurationProperties
 @ImportAutoConfiguration(RefreshAutoConfiguration.class)
 public class RestuarantControllerTest {
-	
+
 	@MockBean
 	private OrderManagementService serviceMock;
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Test
 	public void testFetchOrderWithRestuarantIDForCustomer() {
 		try {
 			List<Item> items = new ArrayList<>();
 			items.add(new Item(1234l, "Chapathi", 2));
 			Transaction transaction = new Transaction(1212l, "3FE4DDA55F99EEA2", PaymentMode.CARD, PaymentStatusType.SUCCESS);
-			List<Order> orders = new ArrayList<Order>();
+			List<Order> orders = new ArrayList<>();
 			orders.add(new Order(1111L, 8689283L, "8888", 9999L, items, 100F, "Address1", "9087654321", OrderStatusType.PLACED, transaction));
-			Mockito.when(serviceMock.fetchOrdersOfCustomerByRestaurantId(Mockito.anyString())).thenReturn(orders);
+			Mockito.when(serviceMock.fetchOrdersOfCustomerByRestaurantId(ArgumentMatchers.anyString())).thenReturn(orders);
 			RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/restuarant").param("restuarantId", "8888")
 					.accept(MediaType.APPLICATION_JSON);
 			MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -71,9 +72,9 @@ public class RestuarantControllerTest {
 			List<Item> items = new ArrayList<>();
 			items.add(new Item(1234l, "Chapathi", 2));
 			Transaction transaction = new Transaction(1212l, "3FE4DDA55F99EEA2", PaymentMode.CARD, PaymentStatusType.SUCCESS);
-			List<Order> orders = new ArrayList<Order>();
+			List<Order> orders = new ArrayList<>();
 			orders.add(new Order(1111L, 8689283L, "8888", 9999L, items, 100F, "Address1", "9087654321", OrderStatusType.PLACED, transaction));
-			Mockito.when(serviceMock.fetchOrdersByRestaurantId(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(orders);
+			Mockito.when(serviceMock.fetchOrdersByRestaurantId(ArgumentMatchers.anyString(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt())).thenReturn(orders);
 			RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/restuarant/8888").param("pageNumber", "0").param("count", "10")
 					.accept(MediaType.APPLICATION_JSON);
 			MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -87,11 +88,11 @@ public class RestuarantControllerTest {
 			Assert.fail();
 		}
 	}
-	
+
 	@Test
 	public void testFetchOrderWithRestuarantIDNotFoundExceptionForCustomer() {
 		try {
-			Mockito.when(serviceMock.fetchOrdersOfCustomerByRestaurantId(Mockito.anyString()))
+			Mockito.when(serviceMock.fetchOrdersOfCustomerByRestaurantId(ArgumentMatchers.anyString()))
 					.thenThrow(new OrderNotFoundException("Restaurant not found"));
 			RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/restuarant").param("restuarantId", "8888")
 					.accept(MediaType.APPLICATION_JSON);
@@ -106,11 +107,11 @@ public class RestuarantControllerTest {
 			Assert.fail();
 		}
 	}
-	
+
 	@Test
 	public void testFetchOrderWithRestuarantIDNotFoundException() {
 		try {
-			Mockito.when(serviceMock.fetchOrdersByRestaurantId(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt()))
+			Mockito.when(serviceMock.fetchOrdersByRestaurantId(ArgumentMatchers.anyString(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
 					.thenThrow(new OrderNotFoundException("The requested order is not found"));
 			RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/restuarant/8888").param("pageNumber", "0").param("count", "10")
 					.accept(MediaType.APPLICATION_JSON);

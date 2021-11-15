@@ -2,9 +2,6 @@ package com.mindtree.order.management.ordermanagementservice.respository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -43,13 +40,13 @@ public class OrderManagementRepositoryTest {
 	public void remove() {
 		entityManager.clear();
 	}
-	
+
 	@Test
 	public void testFetchAllOrdersWithNotFound() {
 		List<Order> orders = repository.findByCustomerId(9999L, null);
 		Assert.assertTrue(orders.isEmpty());
 	}
-	
+
 	@Test
 	public void testFetchAllOrders() {
 		List<Item> items = new ArrayList<>();
@@ -113,7 +110,7 @@ public class OrderManagementRepositoryTest {
 		Assert.assertEquals("Curry", orders.get(1).getItemList().get(1).getItemName());
 		Assert.assertEquals(1, orders.get(1).getItemList().get(1).getQuantity().intValue());
 	}
-	
+
 	@Test
 	public void testFetchOrderWithNotFound() {
 		Order order = repository.findByOrderId(8689283L);

@@ -19,7 +19,7 @@ public class OrderDTO {
 
 	@ApiModelProperty(notes = "Restuarant ID")
 	private String restaurantId;
-	
+
 	@ApiModelProperty(notes = "Customer ID")
 	private String customerId;
 
@@ -28,10 +28,10 @@ public class OrderDTO {
 
 	@ApiModelProperty(notes = "Total Price")
 	private String totalPrice;
-	
+
 	@ApiModelProperty(notes = "Delivery address")
 	private String deliveryAddress;
-	
+
 	@ApiModelProperty(notes = "Contact number")
 	private String contactNumber;
 

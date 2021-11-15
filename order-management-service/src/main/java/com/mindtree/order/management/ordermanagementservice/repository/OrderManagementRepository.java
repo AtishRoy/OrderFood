@@ -15,24 +15,24 @@ import com.mindtree.order.management.ordermanagementservice.model.OrderStatusTyp
 
 @Repository
 public interface OrderManagementRepository extends JpaRepository<Order, Long> {
-	
+
 	@Transactional
 	@Modifying
 	@Query("UPDATE Order o SET o.orderStatus = :status WHERE o.orderId = :orderId")
-    int cancelOrderById(Long orderId, OrderStatusType status);
+	int cancelOrderById(Long orderId, OrderStatusType status);
 
 	List<Order> findByRestaurantIdAndCustomerId(String restuarantId, Long customerId);
-	
+
 	List<Order> findByCustomerId(Long id, Pageable pageable);
-	
+
 	Order findByOrderId(Long id);
-	
+
 	List<Order> findByOrderIdAndRestaurantId(Long orderId, String restuarantId);
-	
+
 	List<Order> findByRestaurantId(String id, Pageable pageable);
-	
+
 	@Transactional
 	@Modifying
 	@Query(value = "DELETE from Order o WHERE o.orderId = :orderId")
-    int deleteByOrderId(Long orderId);
+	int deleteByOrderId(Long orderId);
 }

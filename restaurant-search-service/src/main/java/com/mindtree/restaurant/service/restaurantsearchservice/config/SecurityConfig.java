@@ -11,17 +11,16 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-        final TokenAuthenticationFilter tokenFilter = new TokenAuthenticationFilter();
-        http.addFilterBefore(tokenFilter, BasicAuthenticationFilter.class);
-        http.csrf().disable();
-    }
+	@Override
+	protected void configure(final HttpSecurity http) throws Exception {
+		final TokenAuthenticationFilter tokenFilter = new TokenAuthenticationFilter();
+		http.addFilterBefore(tokenFilter, BasicAuthenticationFilter.class);
+		http.csrf().disable();
+	}
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**",
-            "/swagger-ui.html", "/webjars/**");
-    }
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**");
+	}
 
 }

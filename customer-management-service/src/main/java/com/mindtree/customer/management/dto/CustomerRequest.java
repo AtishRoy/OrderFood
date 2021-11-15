@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,9 +17,9 @@ import lombok.NoArgsConstructor;
  * <pre>
  * <b>Description : </b>
  * CustomerVo.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-24 10:50:55 PM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @Data
@@ -26,7 +27,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @ApiModel(value = "Customer Request", description = "Customer Request details for create and update")
 public class CustomerRequest {
-    
+
     /**
      * FirstName
      */
@@ -36,7 +37,7 @@ public class CustomerRequest {
     @Length(min=1, max=50, message="First name should contain 1-50 characters")
     @ApiModelProperty(required = true, notes = "First Name of the Customer")
     private String firstName;
-    
+
     /**
      * LastName.
      */
@@ -46,7 +47,7 @@ public class CustomerRequest {
     @Length(min=1, max=50, message="Last name should contain 1-50 characters")
     @ApiModelProperty(required = true, notes = "Last Name of the Customer")
     private String lastName;
-    
+
     /**
      * PhoneNumber.
      */
@@ -57,7 +58,7 @@ public class CustomerRequest {
     //@Length(min=10, max=10, message="Phone number should contain 10 numbers")
     @ApiModelProperty(required = true, notes = "Phone Number of the Customer")
     private String phoneNumber;
-    
+
     /**
      * DateOfBirth.
      */
@@ -65,7 +66,7 @@ public class CustomerRequest {
     /*@Length(min=10, max=10, message="Date Of Birth should should be in the formate dd-MM-yyyy")
     @Pattern(regexp="([0-9]{2})-([0-9]{2})-([0-9]{4})", message="Date Of Birth should should be in the formate dd-MM-yyyy")*/
     private String dateOfBirth;
-    
+
     /**
      * address.
      */
@@ -75,7 +76,7 @@ public class CustomerRequest {
     @Length(min=5, max=100, message="Address Line should contain 5-100 characters")
     @ApiModelProperty(required = true, notes = "Address text of the Address")
     private String address;
-    
+
     /**
      * landmark.
      */
@@ -85,7 +86,7 @@ public class CustomerRequest {
     //@Length(min=3, max=50, message="Landmark can should contain 3-50 characters")
     @ApiModelProperty(required = false, notes = "Landmark of the Address")
     private String landmark;
-    
+
     /**
      * area.
      */
@@ -95,7 +96,7 @@ public class CustomerRequest {
     @Length(min=3, max=30, message="Area can should contain 3-30 characters")
     @ApiModelProperty(required = true, notes = "Area of the Address")
     private String area;
-    
+
     /**
      * city.
      */
@@ -105,7 +106,7 @@ public class CustomerRequest {
     @Length(min=3, max=30, message="City should contain 3-30 characters")
     @ApiModelProperty(required = true, notes = "City of the Address")
     private String city;
-    
+
     /**
      * state.
      */
@@ -115,7 +116,7 @@ public class CustomerRequest {
     @Length(min=3, max=20, message="State should contain 3-20 characters")
     @ApiModelProperty(required = true, notes = "State of the Address")
     private String state;
-    
+
     /**
      * latitude.
      */
@@ -124,7 +125,7 @@ public class CustomerRequest {
     @Pattern(regexp = "^(\\+|-)?((\\d((\\.)|\\.\\d{1,6})?)|(0*?[0-8]\\d((\\.)|\\.\\d{1,6})?)|(0*?90((\\.)|\\.0{1,6})?))$", message = "Invalid latitude format")
     @ApiModelProperty(required = true, notes = "Latitude of the Address")
     private String latitude;
-    
+
     /**
      * longitude.
      */
@@ -133,7 +134,7 @@ public class CustomerRequest {
     @Pattern(regexp = "^(\\+|-)?((\\d((\\.)|\\.\\d{1,6})?)|(0*?\\d\\d((\\.)|\\.\\d{1,6})?)|(0*?1[0-7]\\d((\\.)|\\.\\d{1,6})?)|(0*?180((\\.)|\\.0{1,6})?))$", message = "Invalid longitude format")
     @ApiModelProperty(required = true, notes = "Longitude of the Address")
     private String longitude;
-    
+
     /**
      * pinCode.
      */
@@ -143,10 +144,10 @@ public class CustomerRequest {
     @Pattern(regexp = "[0-9]+", message = "Only numbers are allowed for Pin Code")
     @Length(min=6, max=6, message="Pin Code should be 6 digit length")
     private String pinCode;
-    
+
     //@NotNull(message = "Customer Email cannot be null")
     //@NotBlank(message = "Customer Email cannot be blank")
     @ApiModelProperty(hidden = true)
     private String email;
-    
+
 }

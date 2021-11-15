@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@ApiModel(value = "Address", description = "Address details") 
+@ApiModel(value = "Address", description = "Address details")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,12 +24,13 @@ public class Address {
 	@ApiModelProperty(notes = "City where the Restaurant is located")
 	private String city;
 	@ApiModelProperty(notes = "state where the Restaurant is located")
-	private String state;	
+	private String state;
 	@ApiModelProperty(notes = "Pincode of the restaurant")
 	private String pinCode;
 	@ApiModelProperty(notes = "latitude of restaurant")
-    private GeoPoint location;
-    /*@ApiModelProperty(notes = "longitutde of restaurant")
-    private float longitutde;*/
+	private GeoPoint location;
+	/*
+	 * @ApiModelProperty(notes = "longitutde of restaurant") private float longitutde;
+	 */
 
 }

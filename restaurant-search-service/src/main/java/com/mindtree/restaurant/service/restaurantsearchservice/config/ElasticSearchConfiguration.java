@@ -20,7 +20,6 @@ public class ElasticSearchConfiguration extends AbstractElasticsearchConfigurati
 
 	Logger logger = LoggerFactory.getLogger(ElasticSearchConfiguration.class);
 
-
 	@Value("${spring.data.elasticsearch.cluster-name}")
 	private String clusterName;
 
@@ -35,15 +34,14 @@ public class ElasticSearchConfiguration extends AbstractElasticsearchConfigurati
 
 	@Override
 	public RestHighLevelClient elasticsearchClient() {
-		final ClientConfiguration clientConfiguration = ClientConfiguration.builder().connectedTo(serverHostAndPort)
-				.withConnectTimeout(connectionTimeout).withSocketTimeout(readTimeout).build();
+		final ClientConfiguration clientConfiguration = ClientConfiguration.builder().connectedTo(serverHostAndPort).withConnectTimeout(connectionTimeout).withSocketTimeout(readTimeout).build();
 
 		return RestClients.create(clientConfiguration).rest();
 	}
-	
+
 	@Bean
-    public ElasticsearchOperations elasticsearchTemplate() {
-        return new ElasticsearchRestTemplate(elasticsearchClient());
-    }
+	public ElasticsearchOperations elasticsearchTemplate() {
+		return new ElasticsearchRestTemplate(elasticsearchClient());
+	}
 
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mindtree.customer.management.exception;
 
@@ -9,13 +9,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * 
+ *
  * <pre>
  * <b>Description : </b>
  * CustomizedResponseEntityExceptionHandler.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-25 02:33:55 AM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @Data

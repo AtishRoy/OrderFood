@@ -11,8 +11,7 @@ public interface RestaurantService {
 
 	List<Restaurant> save(List<Restaurant> restaurantList);
 
-	List<Restaurant> getRestaurantsBySearchCriteria(String name, String overallRating, String budget, String cuisine,
-			String city, String dishName) throws NoRecordsFoundException;
+	List<Restaurant> getRestaurantsBySearchCriteria(String name, String overallRating, String budget, String cuisine, String city, String dishName) throws NoRecordsFoundException;
 
 	List<Restaurant> getRestaurantsBySearchParam(String searchParam) throws NoRecordsFoundException;
 

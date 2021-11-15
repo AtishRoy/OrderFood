@@ -23,7 +23,7 @@ import com.netflix.zuul.exception.ZuulException;
 
 @Component
 public class PreFilter extends ZuulFilter {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(PreFilter.class);
 
 	@Autowired
@@ -71,7 +71,7 @@ public class PreFilter extends ZuulFilter {
 
 	private void constructZuulException(String message) {
 		ZuulException zuulException = new ZuulException("Authentication credentials", HttpStatus.SC_UNAUTHORIZED,
-				message);	
+				message);
 		throw new ZuulRuntimeException(zuulException);
 	}
 

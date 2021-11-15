@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mindtree.customer.management.model;
 

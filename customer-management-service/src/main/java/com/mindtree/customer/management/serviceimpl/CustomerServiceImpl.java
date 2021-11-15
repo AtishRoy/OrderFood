@@ -2,8 +2,6 @@ package com.mindtree.customer.management.serviceimpl;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -23,7 +21,7 @@ import com.mindtree.customer.management.service.CustomerService;
  * <pre>
  * <b>Description : </b>
  * CustomerServiceImpl.
- * 
+ *
  * &#64;version $Revision: 1 $ $Date: 2018-09-23 09:49:07 AM $
  * &#64;author $Author: nithya.pranesh $
  * </pre>
@@ -46,30 +44,30 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Value("${customer.management.no.customer.for.email}")
 	private String noCustomerForEmail;
-	
+
 	@Value("${customer.management.no.customer.for.status}")
 	private String noCustomerForStatus;
-	
+
 	@Value("${customer.management.no.customer.for.email.update}")
 	private String noCustomerForEmailUpdate;
-	
+
 	@Value("${customer.management.already.exist.with.phone.number}")
 	private String alreadyExistsWithPhoneNumber;
-	
+
 	@Value("${customer.management.no.customer.for.email.delete}")
 	private String noCustomerForEmailDelete;
 
 	@Value("${HAZELCAST.CACHE.SWITCH}")
 	private String hazelcastCacheSwitch;
-    
+
     @Autowired
     private HazelcastInstance hazelcastInstance;
-    
+
     /**
      * <pre>
      * <b>Description : </b>
      * Set the 'hazelcastCacheSwitch' attribute value.
-     * 
+     *
      * @param hazelcastCacheSwitchParam , may be null.
      * </pre>
      */
@@ -78,37 +76,37 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * emailMap.
-     * 
+     *
      * @return emailMap , not null.
      * </pre>
      */
     public IMap<String, Customer> emailMap() {
         return hazelcastInstance.getMap("email");
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * phoneNumberMap.
-     * 
+     *
      * @return phoneNumberMap , not null.
      * </pre>
      */
     public IMap<String, Customer> phoneNumberMap() {
         return hazelcastInstance.getMap("phoneNumber");
     }
-    
+
 	/**
-	 * 
+	 *
 	 * <pre>
 	 * <b>Description : </b>
 	 * addCustomer.
-	 * 
+	 *
 	 * &#64;param customer , may be null.
 	 * &#64;return customer , never null.
 	 * </pre>
@@ -142,7 +140,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 * <pre>
 	 * <b>Description : </b>
 	 * getCustomer.
-	 * 
+	 *
 	 * &#64;param email , may be null.
 	 * &#64;return customer , never null.
 	 * </pre>
@@ -162,11 +160,11 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	/**
-	 * 
+	 *
 	 * <pre>
 	 * <b>Description : </b>
 	 * getCustomers.
-	 * 
+	 *
 	 * &#64;param email , not null.
 	 * &#64;param status , not null.
 	 * &#64;return CustomerList , never null.
@@ -185,7 +183,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 * <pre>
 	 * <b>Description : </b>
 	 * updateCustomer.
-	 * 
+	 *
 	 * &#64;param customer , may be null.
 	 * &#64;return customer , never null.
 	 * </pre>
@@ -215,7 +213,7 @@ public class CustomerServiceImpl implements CustomerService {
 	 * <pre>
 	 * <b>Description : </b>
 	 * deleteCustomer.
-	 * 
+	 *
 	 * &#64;param email , may be null.
 	 * &#64;return customer , never null.
 	 * </pre>
@@ -238,11 +236,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * isPhoneNumberPresent.
-     * 
+     *
      * &#64;param phoneNumber , may be null.
      * &#64;return boolean , never null.
      * </pre>
@@ -255,11 +253,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * replaceNewDataToCustomer.
-     * 
+     *
      * &#64;param findByEmail , may be null.
      * &#64;param customer , may be null.
      * </pre>
@@ -281,39 +279,39 @@ public class CustomerServiceImpl implements CustomerService {
         findByEmail.setLastName(customer.getLastName());
         findByEmail.setPhoneNumber(customer.getPhoneNumber());
     }
-	
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * addToEmailCacheMap.
-     * 
+     *
      * @param newCustomer , not null.
      * </pre>
      */
 	private void addToEmailCacheMap(final Customer newCustomer) {
-        emailMap().put(newCustomer.getEmail(), newCustomer);    
+        emailMap().put(newCustomer.getEmail(), newCustomer);
     }
-	
+
 	/**
-	 * 
+	 *
 	 * <pre>
 	 * <b>Description : </b>
 	 * addToPhoneNumberCacheMap.
-	 * 
+	 *
 	 * @param newCustomer , not null.
 	 * </pre>
 	 */
-    private void addToPhoneNumberCacheMap(final Customer newCustomer) {    
+    private void addToPhoneNumberCacheMap(final Customer newCustomer) {
         phoneNumberMap().put(newCustomer.getPhoneNumber(), newCustomer);
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * updatedCustomerInMap.
-     * 
+     *
      * @param updatedCustomer , not null.
      * </pre>
      */
@@ -321,13 +319,13 @@ public class CustomerServiceImpl implements CustomerService {
         emailMap().replace(updatedCustomer.getEmail(), updatedCustomer);
         phoneNumberMap().replace(updatedCustomer.getPhoneNumber(), updatedCustomer);
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * getCustomerUsingEmail.
-     * 
+     *
      * @param email , may be null.
      * @return findByEmail , may be null.
      * </pre>
@@ -345,13 +343,13 @@ public class CustomerServiceImpl implements CustomerService {
             return findByEmail;
         }
     }
-    
+
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * getCustomerUsingPhoneNumber.
-     * 
+     *
      * @param phoneNumber , may be null.
      * @return findByPhoneNumber , may be null.
      * </pre>
@@ -371,11 +369,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
-     * 
+     *
      * <pre>
      * <b>Description : </b>
      * getCustomerForId.
-     * 
+     *
      * @param email , may be null.
      * @return foundCustomer , may be null.
      * </pre>

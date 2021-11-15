@@ -45,8 +45,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @Import(SwaggerConfig.class)
 @RequestMapping("/order")
-@Api(value = "Order Management Controller", produces = MediaType.APPLICATION_JSON_VALUE, tags = {
-		"Order Management" }, description = "Api's for managing the orders")
+@Api(value = "Order Management Controller", produces = MediaType.APPLICATION_JSON_VALUE, tags = { "Order Management" }, description = "Api's for managing the orders")
 @RefreshScope
 public class OrderManagementControllerImpl implements OrderManagementController {
 
@@ -56,9 +55,9 @@ public class OrderManagementControllerImpl implements OrderManagementController 
 	@Autowired
 	private EntityLinks entityLinks;
 
+	@Override
 	@ApiOperation(value = "Fetch order by order ID", response = OrderDTO.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Order returned successfully"),
-			@ApiResponse(code = 400, message = "The requested order is not found") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Order returned successfully"), @ApiResponse(code = 400, message = "The requested order is not found") })
 	@ApiParam(value = "Order ID", name = "Order Id")
 	@GetMapping("/{id}")
 	public ResponseEntity<OrderDTO> fetchOrder(@PathVariable String id) {
@@ -69,14 +68,13 @@ public class OrderManagementControllerImpl implements OrderManagementController 
 		return new ResponseEntity<>(orderDTO, HttpStatus.OK);
 	}
 
+	@Override
 	@ApiOperation(value = "Fetch list of orders", response = OrderDTO.class, responseContainer = "List")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Orders returned successfully"),
-			@ApiResponse(code = 500, message = "Internal server error") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Orders returned successfully"), @ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping
-	public ResponseEntity<List<OrderDTO>> fetchAllOrders(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-			@RequestParam(value = "count", required =  false) Integer count) {
+	public ResponseEntity<List<OrderDTO>> fetchAllOrders(@RequestParam(value = "pageNumber", required = false) Integer pageNumber, @RequestParam(value = "count", required = false) Integer count) {
 		List<Order> orders = orderManagementService.fetchAllOrders(pageNumber, count);
-		List<OrderDTO> confirmOrders = new ArrayList<OrderDTO>();
+		List<OrderDTO> confirmOrders = new ArrayList<>();
 		for (Order order : orders) {
 			OrderDTO orderDTO = EntityDTOMapper.mapEntityToOrderDTO(order);
 			confirmOrders.add(orderDTO);
@@ -84,40 +82,36 @@ public class OrderManagementControllerImpl implements OrderManagementController 
 		return new ResponseEntity<>(confirmOrders, HttpStatus.OK);
 	}
 
+	@Override
 	@ApiOperation(value = "Place order", response = ConfirmOrderDTO.class, responseContainer = "List")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Order places successfully"),
-			@ApiResponse(code = 400, message = "Input data mismatch") })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Order places successfully"), @ApiResponse(code = 400, message = "Input data mismatch") })
 
 	@PostMapping
 	public ResponseEntity<Object> placeOrder(@Valid @RequestBody RequestOrderDTO orderDetails) {
 		Order order = EntityDTOMapper.mapDTOToEntity(orderDetails);
 		order = orderManagementService.placeOrder(order);
 		ConfirmOrderDTO confirmOrder = EntityDTOMapper.mapEntityToDTO(order);
-		Link getOrderDetail = linkTo(
-				methodOn(OrderManagementControllerImpl.class).fetchOrder(confirmOrder.getOrderId().toString()))
-						.withRel("get order details");
+		Link getOrderDetail = linkTo(methodOn(OrderManagementControllerImpl.class).fetchOrder(confirmOrder.getOrderId().toString())).withRel("get order details");
 		Resource<ConfirmOrderDTO> resource = new Resource<>(confirmOrder, getOrderDetail);
 		return new ResponseEntity<>(resource, HttpStatus.CREATED);
 	}
 
+	@Override
 	@ApiOperation(value = "Update order", response = ConfirmOrderDTO.class)
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Order updates successfully"),
-			@ApiResponse(code = 400, message = "Input data mismatch") })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Order updates successfully"), @ApiResponse(code = 400, message = "Input data mismatch") })
 	@PutMapping
 	public ResponseEntity<Object> updateOrder(@Valid @RequestBody RequestOrderDTO orderDetails) {
 		Order order = EntityDTOMapper.mapDTOToEntity(orderDetails);
 		order = orderManagementService.updateOrder(order);
 		ConfirmOrderDTO confirmOrder = EntityDTOMapper.mapEntityToDTO(order);
-		Link getOrderDetail = linkTo(
-				methodOn(OrderManagementControllerImpl.class).fetchOrder(confirmOrder.getOrderId().toString()))
-						.withRel("get order details");
+		Link getOrderDetail = linkTo(methodOn(OrderManagementControllerImpl.class).fetchOrder(confirmOrder.getOrderId().toString())).withRel("get order details");
 		Resource<ConfirmOrderDTO> resource = new Resource<>(confirmOrder, getOrderDetail);
 		return new ResponseEntity<>(resource, HttpStatus.CREATED);
 	}
 
+	@Override
 	@ApiOperation(value = "Cancel order", response = String.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Order cancells successfully"),
-			@ApiResponse(code = 400, message = "Input data mismatch"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Order cancells successfully"), @ApiResponse(code = 400, message = "Input data mismatch"),
 			@ApiResponse(code = 404, message = "Order not found") })
 	@ApiParam(value = "Order ID", name = "Order Id")
 	@DeleteMapping("/{id}")
@@ -125,9 +119,7 @@ public class OrderManagementControllerImpl implements OrderManagementController 
 		id = id.trim();
 		long orderId = Long.parseLong(id);
 		String message = orderManagementService.cancelOrder(orderId);
-		Link getOrderDetail = linkTo(
-				methodOn(OrderManagementControllerImpl.class).fetchOrder(id))
-						.withRel("get cancelled order details");
+		Link getOrderDetail = linkTo(methodOn(OrderManagementControllerImpl.class).fetchOrder(id)).withRel("get cancelled order details");
 		Resource<String> resource = new Resource<>(message, getOrderDetail);
 		return new ResponseEntity<>(resource, HttpStatus.OK);
 	}

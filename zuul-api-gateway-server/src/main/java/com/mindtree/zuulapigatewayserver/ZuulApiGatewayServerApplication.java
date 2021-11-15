@@ -47,7 +47,7 @@ public class ZuulApiGatewayServerApplication extends SpringBootServletInitialize
 	public void initFireBaseApp() throws ZuulException {
 		log.debug("Initialize fire base app!");
 		try {
-		    
+
 		    URL resource = getClass().getResource("/serviceAccountKey.json");
 		    String file = resource.getFile();
 			FileInputStream serviceAccount = new FileInputStream(file);

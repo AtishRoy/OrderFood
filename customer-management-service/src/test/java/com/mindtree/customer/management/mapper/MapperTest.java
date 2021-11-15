@@ -29,15 +29,15 @@ import com.mindtree.customer.management.model.OAuthUser;
  * <pre>
  * <b>Description : </b>
  * CustomerServiceImplTest.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-24 10:50:55 PM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @RunWith(SpringRunner.class)
 public class MapperTest {
 
-    
+
     @TestConfiguration
     static class MapperTestContextConfiguration {
         @Bean
@@ -45,8 +45,8 @@ public class MapperTest {
             return new CustomerMapper();
         }
     }
-    
-    
+
+
     @Test
     public void testBuildCustomerResponse() {
         Customer customer = new Customer(1L, "firstname", "lastName", "email", "12432435", new Date(),
@@ -68,7 +68,7 @@ public class MapperTest {
         Assert.assertEquals("ACTIVE", buildCustomerResponse.getStatus());
         Assert.assertEquals("state", buildCustomerResponse.getState());
     }
-    
+
     @Test
     public void testBuildCustomerResponse1() {
         Customer customer = new Customer(1L, "firstname", "lastName", "email", "12432435", null, null, "ACTIVE",
@@ -89,14 +89,14 @@ public class MapperTest {
         Assert.assertEquals("ACTIVE", buildCustomerResponse.getStatus());
         Assert.assertNull(buildCustomerResponse.getState());
     }
-    
+
     @Test(expected=InvalidDataFormatException.class)
     public void testBuildCustomerForUpdateCustomerPhoneExce() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "244354353", "22-10-1989", "address", "land",
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.buildCustomerForUpdateCustomer("Sucess", customerReq);
     }
-    
+
     @Test
     public void testBuildCustomerForUpdateCustomer() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-10-1989", "address", "land",
@@ -117,9 +117,9 @@ public class MapperTest {
         Assert.assertEquals("longitude", buildCustomerForUpdateCustomer.getAddress().getLongitude());
         Assert.assertEquals("pinCode", buildCustomerForUpdateCustomer.getAddress().getPinCode());
         Assert.assertEquals("state", buildCustomerForUpdateCustomer.getAddress().getState());
-        
+
     }
-    
+
     @Test
     public void testBuildCustomerForUpdateCustomer5() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-10-1989", "address", "",
@@ -141,7 +141,7 @@ public class MapperTest {
         Assert.assertEquals("pinCode", buildCustomerForUpdateCustomer.getAddress().getPinCode());
         Assert.assertEquals("state", buildCustomerForUpdateCustomer.getAddress().getState());
     }
-    
+
     @Test
     public void testBuildCustomerForUpdateCustomer6() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-10-1989", "address", null,
@@ -163,21 +163,21 @@ public class MapperTest {
         Assert.assertEquals("pinCode", buildCustomerForUpdateCustomer.getAddress().getPinCode());
         Assert.assertEquals("state", buildCustomerForUpdateCustomer.getAddress().getState());
     }
-    
+
     @Test(expected=InvalidDataFormatException.class)
     public void testBuildCustomerForUpdateCustomer8() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-10-1989", "address", "a",
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.buildCustomerForUpdateCustomer("Sucess", customerReq);
     }
-    
+
     @Test(expected=InvalidDataFormatException.class)
     public void testBuildCustomerForUpdateCustomer9() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-10-1989", "address", "aasosadljasfxojfoaewjfohewfdiagefiagfigfugsairegfiregfieorgfoiregioerhogregoferjoigdeoirhgiehgieigehigheihgireshfdieorhdiorehfigeorgoewhgwe",
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.buildCustomerForUpdateCustomer("Sucess", customerReq);
     }
-    
+
     @Test
     public void testBuildCustomerForCreateCustomer5() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-10-1989", "address", "",
@@ -199,7 +199,7 @@ public class MapperTest {
         Assert.assertEquals("pinCode", buildCustomerForNewCustomer.getAddress().getPinCode());
         Assert.assertEquals("state", buildCustomerForNewCustomer.getAddress().getState());
     }
-    
+
     @Test
     public void testBuildCustomerForCreateCustomer6() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-10-1989", "address", null,
@@ -221,14 +221,14 @@ public class MapperTest {
         Assert.assertEquals("pinCode", buildCustomerForNewCustomer.getAddress().getPinCode());
         Assert.assertEquals("state", buildCustomerForNewCustomer.getAddress().getState());
     }
-    
+
     @Test(expected=InvalidDataFormatException.class)
     public void testBuildCustomerForCreateCustomer8() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-10-1989", "address", "a",
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.buildCustomerForNewCustomer("Sucess", customerReq);
     }
-    
+
     @Test(expected=InvalidDataFormatException.class)
     public void testBuildCustomerForCreateCustomer9() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-10-1989", "address", "aasosadljasfxojfoaewjfohewfdiagefiagfigfugsairegfiregfieorgfoiregioerhogregoferjoigdeoirhgiehgieigehigheihgireshfdieorhdiorehfigeorgoewhgwe",
@@ -328,24 +328,24 @@ public class MapperTest {
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.buildCustomerForNewCustomer("dsfsd", customerReq);
     }
-    
+
     @Test(expected=InvalidDataFormatException.class)
     public void testBuildCustomerForNewCustomerPhone1() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "werew", "22-10-1989", "address", "land",
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.buildCustomerForNewCustomer("dsfsd", customerReq);
     }
-    
+
     @Test
     public void testValidateStatus() {
         CustomerMapper.validateStatus("ACTIVE");
     }
-    
+
     @Test
     public void testValidateStatusValid1() {
         CustomerMapper.validateStatus("INACTIVE");
     }
-    
+
     @Test(expected=CustomerNotFoundException.class)
     public void testValidateStatusInvalid() {
         CustomerMapper.validateStatus("asfdsaf");
@@ -354,15 +354,15 @@ public class MapperTest {
     public void testValidateStatusInvalid1() {
         CustomerMapper.validateStatus("");
     }
-    
+
     @Test(expected=CustomerNotFoundException.class)
     public void testValidateStatusInvalid2() {
         CustomerMapper.validateStatus(null);
     }
-    
+
     @Test
     public void testBuildCustomerResponseList() {
-        List<Customer> lsit = new ArrayList<Customer>();
+        List<Customer> lsit = new ArrayList<>();
         Customer customer1 = new Customer(1L, "firstname", "lastName", "email", "12432435", new Date(),
             new Address(1L, "address", "landmark", "area", "city", "state", "+12.3456", "-12.3456", "123456"), "ACTIVE",
             new Date());
@@ -387,7 +387,7 @@ public class MapperTest {
         Assert.assertEquals("123456", buildCustomerResponse.getPinCode());
         Assert.assertEquals("ACTIVE", buildCustomerResponse.getStatus());
         Assert.assertEquals("state", buildCustomerResponse.getState());
-        
+
         CustomerResponse buildCustomerResponse1 = buildCustomerResponseList.get(1);
         Assert.assertEquals("address", buildCustomerResponse1.getAddress());
         Assert.assertEquals("area", buildCustomerResponse1.getArea());
@@ -403,51 +403,51 @@ public class MapperTest {
         Assert.assertEquals("ACTIVE", buildCustomerResponse1.getStatus());
         Assert.assertEquals("state", buildCustomerResponse1.getState());
     }
-    
+
     @Test(expected=CustomerNotFoundException.class)
     public void testBuildCustomerResponseListNull() {
         CustomerMapper.buildCustomerResponseList(null);
     }
-    
+
     @Test(expected=CustomerNotFoundException.class)
     public void testBuildCustomerResponseListempty() {
-        List<Customer> lsit = new ArrayList<Customer>();
+        List<Customer> lsit = new ArrayList<>();
         CustomerMapper.buildCustomerResponseList(lsit);
     }
-    
+
     @Test
     public void testmapDob() {
         CustomerMapper.mapDob(new CustomerRequest(), null);
     }
-    
+
     @Test
     public void testmapDobblank() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "", "address", "land",
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.mapDob(customerReq, null);
     }
-    
+
     @Test(expected=InvalidDateFormatException.class)
     public void testmapDobblank1() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "asdsa", "address", "land",
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.mapDob(customerReq, null);
     }
-    
+
     @Test(expected=InvalidDateFormatException.class)
     public void testmapDobblank2() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-08-1234", "address", "land",
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.mapDob(customerReq, null);
     }
-    
+
     @Test(expected=InvalidDateFormatException.class)
     public void testmapDobblank3() {
         CustomerRequest customerReq = new CustomerRequest("sds", "sdfds", "1243243556", "22-08-9999", "address", "land",
             "area", "city", "state", "latitude", "longitude", "pinCode", "user");
         CustomerMapper.mapDob(customerReq, null);
     }
-    
+
     @Test
     public void testmapDobblank4() {
         Customer customer = new Customer();
@@ -456,12 +456,12 @@ public class MapperTest {
         CustomerMapper.mapDob(customerReq, customer);
         Assert.assertNotNull(customer.getDateOfBirth());
     }
-    
+
     @Test
     public void testCalculateYears() {
         CustomerMapper.calculateYears(new Date());
     }
-    
+
     @Test
     public void testCalculateYears1() {
         SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy");
@@ -474,7 +474,7 @@ public class MapperTest {
             Assert.fail();
         }
     }
-    
+
     @Test
     public void testCalculateYears2() {
         SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy");
@@ -487,7 +487,7 @@ public class MapperTest {
             Assert.fail();
         }
     }
-    
+
     @Test
     public void testCalculateYears3() {
         SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy");
@@ -500,7 +500,7 @@ public class MapperTest {
             Assert.fail();
         }
     }
-    
+
     @Test
     public void testgetEmailFromToken() {
         OAuthUser user = new OAuthUser();
@@ -514,7 +514,7 @@ public class MapperTest {
         String emailFromToken = CustomerMapper.getEmailFromToken(user);
         Assert.assertEquals("email", emailFromToken);
     }
-    
+
     @Test
     public void testgetEmailFromTokenEmpty() {
         OAuthUser user = new OAuthUser();
@@ -527,7 +527,7 @@ public class MapperTest {
         String emailFromToken = CustomerMapper.getEmailFromToken(user);
         Assert.assertEquals("", emailFromToken);
     }
-    
+
     @Test
     public void testgetEmailFromTokenNoEmailList() {
         OAuthUser user = new OAuthUser();
@@ -538,7 +538,7 @@ public class MapperTest {
         String emailFromToken = CustomerMapper.getEmailFromToken(user);
         Assert.assertEquals("", emailFromToken);
     }
-    
+
     @Test
     public void testgetEmailFromTokenNoIdentiy() {
         OAuthUser user = new OAuthUser();
@@ -547,21 +547,21 @@ public class MapperTest {
         String emailFromToken = CustomerMapper.getEmailFromToken(user);
         Assert.assertEquals("", emailFromToken);
     }
-    
+
     @Test
     public void testgetEmailFromTokenNoFirebase() {
         OAuthUser user = new OAuthUser();
         String emailFromToken = CustomerMapper.getEmailFromToken(user);
         Assert.assertEquals("", emailFromToken);
     }
-    
+
     @Test
     public void testgetEmailFromTokenNouser() {
         OAuthUser user = null;
         String emailFromToken = CustomerMapper.getEmailFromToken(user);
         Assert.assertEquals("", emailFromToken);
     }
-    
+
     @Test
     public void testMapCustomerToCustomerIdResponse() {
         Customer customer = new Customer(1L, "firstname", "lastName", "email", "12432435", new Date(),
@@ -571,7 +571,7 @@ public class MapperTest {
         Assert.assertEquals("1", customerIdResponse.getCustomerId());
         Assert.assertEquals("email", customerIdResponse.getEmail());
     }
-    
+
     @Test
     public void testMapCustomerToCustomerIdResponse2() {
         CustomerIdResponse customerIdResponse = CustomerMapper.mapCustomerToCustomerIdResponse(null);

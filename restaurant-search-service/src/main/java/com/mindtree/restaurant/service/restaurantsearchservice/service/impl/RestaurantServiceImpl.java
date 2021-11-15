@@ -38,13 +38,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurantList;
 	}
 
-	/*
-	 * public String getAllRestaurant() { List<Restaurant> list=
-	 * restaurantRepository.findAll(); return "Total Restaurants  : "+list.size(); }
-	 */
 	@Override
-	public List<Restaurant> getRestaurantsBySearchCriteria(String name, String overallRating, String budget,
-			String cuisine, String city, String dishName) throws NoRecordsFoundException {
+	public List<Restaurant> getRestaurantsBySearchCriteria(String name, String overallRating, String budget, String cuisine, String city, String dishName) throws NoRecordsFoundException {
 		BoolQueryBuilder query = QueryBuilders.boolQuery();
 		if (name != null) {
 			query.filter(QueryBuilders.queryStringQuery("*" + name + "*").lenient(true).field("name"));
@@ -59,32 +54,34 @@ public class RestaurantServiceImpl implements RestaurantService {
 			query.filter(QueryBuilders.rangeQuery("budget").lte(Float.parseFloat(budget)));
 		}
 		if (cuisine != null) {
-			query.filter(
-					QueryBuilders.queryStringQuery("*" + cuisine + "*").lenient(true).field("cuisineList.cuisineName"));
+			query.filter(QueryBuilders.queryStringQuery("*" + cuisine + "*").lenient(true).field("cuisineList.cuisineName"));
 		}
 		if (dishName != null) {
-			query.filter(QueryBuilders.queryStringQuery("*" + dishName + "*").lenient(true)
-					.field("categoryList.subCategoryList.itemList.itemName"));
+			query.filter(QueryBuilders.queryStringQuery("*" + dishName + "*").lenient(true).field("categoryList.subCategoryList.itemList.itemName"));
 		}
 		NativeSearchQuery build = new NativeSearchQueryBuilder().withQuery(query).build();
 		build.setPageable(new SearchPagination());
-		return elasticsearchTemplate.queryForList(build, Restaurant.class);
+		SearchHits<Restaurant> searchHits = elasticsearchTemplate.search(build, Restaurant.class);
+		List<Restaurant> resturants = new ArrayList<>();
+		for (SearchHit<Restaurant> hit : searchHits.getSearchHits()) {
+			resturants.add(hit.getContent());
+		}
+		return resturants;
 	}
 
 	@Override
 	public List<Restaurant> getRestaurantsBySearchParam(String searchParam) throws NoRecordsFoundException {
 		BoolQueryBuilder query = QueryBuilders.boolQuery();
-		query.should(QueryBuilders.queryStringQuery(searchParam).lenient(true))
-				.should(QueryBuilders.queryStringQuery("*" + searchParam + "*").lenient(true));
+		query.should(QueryBuilders.queryStringQuery(searchParam).lenient(true)).should(QueryBuilders.queryStringQuery("*" + searchParam + "*").lenient(true));
 		NativeSearchQuery build = new NativeSearchQueryBuilder().withQuery(query).build();
 		build.setPageable(new SearchPagination());
 		SearchHits<Restaurant> searchHits = elasticsearchTemplate.search(build, Restaurant.class);
-		
-		
+
 		List<Restaurant> resturants = new ArrayList<>();
-		for (SearchHit hit : searchHits.getSearchHits()) {
-			resturants.add(hit);
-		  }
+		for (SearchHit<Restaurant> hit : searchHits.getSearchHits()) {
+			resturants.add(hit.getContent());
+		}
+		return resturants;
 	}
 
 	@Override
@@ -101,18 +98,17 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-    public void updateAverageRating(List<ReviewVO> reviews) {
-        for (ReviewVO review : reviews) {
-            Optional<Restaurant> restaurantOpt = restaurantRepository.findById(review.getRestaurantId());
-            if (restaurantOpt.isPresent()) {
-                Restaurant restaurant = restaurantOpt.get();
-                restaurant.setOverallRating(Float.valueOf(review.getAvgRating()));
-                restaurantRepository.save(restaurant);
-            }
-            else {
-                throw new NoRecordsFoundException("404", "Not Found", "Restaurant not found");
-            }
-        }
-    }   
+	public void updateAverageRating(List<ReviewVO> reviews) {
+		for (ReviewVO review : reviews) {
+			Optional<Restaurant> restaurantOpt = restaurantRepository.findById(review.getRestaurantId());
+			if (restaurantOpt.isPresent()) {
+				Restaurant restaurant = restaurantOpt.get();
+				restaurant.setOverallRating(Float.valueOf(review.getAvgRating()));
+				restaurantRepository.save(restaurant);
+			} else {
+				throw new NoRecordsFoundException("404", "Not Found", "Restaurant not found");
+			}
+		}
+	}
 
 }

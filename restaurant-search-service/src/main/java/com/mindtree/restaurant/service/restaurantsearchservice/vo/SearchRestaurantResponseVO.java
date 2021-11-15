@@ -6,9 +6,9 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "SearchRestaurantResponse", description = "Item Details") 
+@ApiModel(value = "SearchRestaurantResponse", description = "Item Details")
 public class SearchRestaurantResponseVO {
-	
+
 	private String numberOfRecords;
 	private String statusCode;
 	private String status;

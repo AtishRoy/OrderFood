@@ -8,12 +8,11 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ExceptionResponse {
-    
-	private Date timestamp;
-    private int status;
-    private String error;
-    private String message;
-    private String details;
 
+	private Date timestamp;
+	private int status;
+	private String error;
+	private String message;
+	private String details;
 
 }

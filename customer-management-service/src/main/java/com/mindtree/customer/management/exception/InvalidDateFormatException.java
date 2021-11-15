@@ -13,20 +13,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * 
+ *
  * <pre>
  * <b>Description : </b>
  * InvalidDateFormatException.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-25 02:33:55 AM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @ResponseStatus(code = HttpStatus.CONFLICT)
 public class InvalidDateFormatException extends RuntimeException {
-    
+
     public InvalidDateFormatException(String message) {
         super(message);
     }
-    
+
 }

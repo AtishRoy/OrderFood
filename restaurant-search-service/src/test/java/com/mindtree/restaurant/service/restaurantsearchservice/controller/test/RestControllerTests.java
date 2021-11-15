@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -55,7 +54,7 @@ public class RestControllerTests {
 	@Before
 	public void setup() {
 		mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        validator = Mockito.mock(Validator.class);
+		validator = Mockito.mock(Validator.class);
 	}
 
 	@Autowired
@@ -73,7 +72,6 @@ public class RestControllerTests {
 			return service;
 		}
 	}
-	
 
 	@Test
 	public void testSearch() {
@@ -82,8 +80,7 @@ public class RestControllerTests {
 			Mockito.when(service.getRestaurantsBySearchParam(Mockito.anyString())).thenReturn(restaurants);
 			MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
 			request.when().get("/restaurant/search?query=vinod").then().statusCode(200);
-			Mockito.verify(builder, Mockito.times(1)).buildResponse(Mockito.anyList(), Mockito.any(HttpStatus.class),
-					Mockito.anyString(), Mockito.anyString());
+			Mockito.verify(builder, Mockito.times(1)).buildResponse(Mockito.anyList(), Mockito.any(HttpStatus.class), Mockito.anyString(), Mockito.anyString());
 		} catch (NoRecordsFoundException e) {
 			Assert.fail();
 		}
@@ -94,8 +91,7 @@ public class RestControllerTests {
 		Mockito.when(service.getRestaurantsBySearchParam(Mockito.anyString())).thenReturn(new ArrayList<Restaurant>());
 		MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
 		request.when().get("/restaurant/search?query=vinod").then().statusCode(404);
-		Mockito.verify(builder, Mockito.times(0)).buildResponse(Mockito.anyList(), Mockito.any(HttpStatus.class),
-				Mockito.anyString(), Mockito.anyString());
+		Mockito.verify(builder, Mockito.times(0)).buildResponse(Mockito.anyList(), Mockito.any(HttpStatus.class), Mockito.anyString(), Mockito.anyString());
 	}
 
 	@Test
@@ -122,28 +118,26 @@ public class RestControllerTests {
 	}
 
 	@Test
-	public void testSearchByFilter() throws ApplicationException, NoRecordsFoundException {
+	public void testSearchByFilter() throws NoRecordsFoundException {
 		List<Restaurant> restaurants = buildRestaurant();
-		Mockito.when(service.getRestaurantsBySearchCriteria(Mockito.anyString(), Mockito.anyString(),
-				Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+		Mockito.when(service.getRestaurantsBySearchCriteria(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
 				.thenReturn(restaurants);
-		Mockito.when(validator.isValidRequest("320","4")).thenReturn(true);
+		Mockito.when(validator.isValidRequest("320", "4")).thenReturn(true);
 		MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
 		request.when().get("/restaurant/searchbyfilter?name=BBQNation").then().statusCode(404);
 	}
 
 	@Test
-	public void testSearchByFilterIfNOresordsFound() throws ApplicationException, NoRecordsFoundException {
-		Mockito.when(service.getRestaurantsBySearchCriteria(Mockito.anyString(), Mockito.anyString(),
-				Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+	public void testSearchByFilterIfNOresordsFound() throws NoRecordsFoundException {
+		Mockito.when(service.getRestaurantsBySearchCriteria(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
 				.thenReturn(new ArrayList<Restaurant>());
-		Mockito.when(validator.isValidRequest("320","4")).thenReturn(true);
+		Mockito.when(validator.isValidRequest("320", "4")).thenReturn(true);
 		MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
 		request.when().get("/restaurant/searchbyfilter?name=vinod").then().statusCode(404);
 	}
 
 	@Test
-	public void testupdateReviews() throws ApplicationException, NoRecordsFoundException {
+	public void testupdateReviews() throws NoRecordsFoundException {
 		MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
 		List<ReviewVO> review = new ArrayList<>();
 		review.add(buildNewReview("11112", "4.5"));
@@ -153,9 +147,8 @@ public class RestControllerTests {
 	}
 
 	@Test
-	public void testupdateReviewsWhenException() throws ApplicationException, NoRecordsFoundException {
-		Mockito.doThrow(new NoRecordsFoundException("200", "Fail", "No records Found")).when(service)
-				.updateAverageRating(Mockito.anyList());
+	public void testupdateReviewsWhenException() throws NoRecordsFoundException {
+		Mockito.doThrow(new NoRecordsFoundException("200", "Fail", "No records Found")).when(service).updateAverageRating(Mockito.anyList());
 		MockMvcRequestSpecification request = RestAssuredMockMvc.given().mockMvc(mvc);
 		List<ReviewVO> review = new ArrayList<>();
 		review.add(buildNewReview("11112", "4.5"));
@@ -199,10 +192,8 @@ public class RestControllerTests {
 		Category categ = Category.builder().categoryName("Veg").subCategoryList(categories2).build();
 		categories.add(categ);
 		Restaurant restaurant = Restaurant.builder()
-				.address(Address.builder().addressLine("#58,1st main road").area("parvathipuram").city("Bangalore")
-						.landmark("Sajjan Rao").pinCode("560004").state("Karanataka").build())
-				.budget(350).name("BBQNation").overallRating(4.5f).phoneNumber("9988776655").restaurantId("VK11")
-				.categoryList(categories).build();
+				.address(Address.builder().addressLine("#58,1st main road").area("parvathipuram").city("Bangalore").landmark("Sajjan Rao").pinCode("560004").state("Karanataka").build()).budget(350)
+				.name("BBQNation").overallRating(4.5f).phoneNumber("9988776655").restaurantId("VK11").categoryList(categories).build();
 		list.add(restaurant);
 		return list;
 	}

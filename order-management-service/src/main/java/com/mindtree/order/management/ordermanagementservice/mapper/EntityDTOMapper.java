@@ -19,7 +19,7 @@ public class EntityDTOMapper {
 		}
 		order.setRestaurantId(orderDTO.getRestaurantId());
 		order.setTotalPrice(Float.parseFloat(orderDTO.getTotalPrice()));
-		List<Item> itemList = new ArrayList<Item>();
+		List<Item> itemList = new ArrayList<>();
 		for (ItemDTO itemDTO : orderDTO.getItemList()) {
 			itemList.add(mapItemDTOToEntity(itemDTO));
 		}
@@ -62,7 +62,7 @@ public class EntityDTOMapper {
 			orderDTO.setPaymentStatus(order.getTransaction().getPaymentStatus().name());
 			orderDTO.setTransactionId(order.getTransaction().getTransactionId());
 		}
-		List<ItemDTO> itemList = new ArrayList<ItemDTO>();
+		List<ItemDTO> itemList = new ArrayList<>();
 		for (Item item : order.getItemList()) {
 			ItemDTO itemDTO = new ItemDTO();
 			itemDTO.setItemName(item.getItemName());

@@ -20,9 +20,9 @@ import com.mindtree.customer.management.model.Customer;
  * <pre>
  * <b>Description : </b>
  * CustomerRepositoryTest.
- * 
+ *
  * @version $Revision: 1 $ $Date: 2018-09-23 05:53:35 PM $
- * @author $Author: nithya.pranesh $ 
+ * @author $Author: nithya.pranesh $
  * </pre>
  */
 @RunWith(SpringRunner.class)
@@ -31,10 +31,10 @@ public class CustomerRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
- 
+
     @Autowired
     private CustomerRepository repository;
-    
+
     @Before
     public void setup() {
         entityManager.clear();
@@ -54,26 +54,26 @@ public class CustomerRepositoryTest {
     public void remove() {
         entityManager.clear();
     }
-    
+
     @Test
     public void testFindByEmail() {
         Customer findByEmailCustomer = repository.findByEmail("user1@example.com");
         Assert.assertNotNull(findByEmailCustomer);
         Assert.assertEquals("user1@example.com", findByEmailCustomer.getEmail());
     }
-    
+
     @Test
     public void testFindByPhoneNumberl() {
         Customer findByEmailCustomer = repository.findByPhoneNumber("12432435");
         Assert.assertNotNull(findByEmailCustomer);
         Assert.assertEquals("user@example.com", findByEmailCustomer.getEmail());
     }
-    
+
     @Test
     public void testFindByStatus() {
         List<Customer> findByEmailCustomer = repository.findByStatus("INACTIVE");
         Assert.assertNotNull(findByEmailCustomer);
         Assert.assertEquals(1, findByEmailCustomer.size());
     }
-    
+
 }

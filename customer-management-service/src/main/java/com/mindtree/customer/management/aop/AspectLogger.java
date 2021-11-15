@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class AspectLogger {
-	
+
 	private Logger logger;
-	
+
 	@Before("execution(* com.mindtree.customer.management.*.*.*(..))")
 	public void before(JoinPoint joinpoint) throws Throwable {
 	    logger = LoggerFactory.getLogger(joinpoint.getSignature().getDeclaringType());
@@ -30,7 +30,7 @@ public class AspectLogger {
 		logger.debug(joinpoint.getSignature().getName());
 		logger.debug(Arrays.toString(joinpoint.getArgs()));
 	}
-	@AfterThrowing(value = "execution(* com.mindtree.customer.management.*.*.*(..))", 
+	@AfterThrowing(value = "execution(* com.mindtree.customer.management.*.*.*(..))",
 			throwing = "throwable")
 	public void afterThrowing(JoinPoint joinPoint, Throwable throwable) throws Throwable {
 	    logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());
@@ -38,7 +38,7 @@ public class AspectLogger {
 		//logger.error(throwable.getMessage());
 		logger.error("Exception", throwable);
 	}
-	@AfterReturning(value = "execution(* com.mindtree.customer.management.*.*.*(..))", 
+	@AfterReturning(value = "execution(* com.mindtree.customer.management.*.*.*(..))",
 			returning = "result")
 	public void afterReturning(JoinPoint joinPoint, Object result) throws Throwable {
 	    logger = LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType());

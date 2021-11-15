@@ -9,7 +9,7 @@ import com.mindtree.restaurant.service.restaurantsearchservice.model.Restaurant;
 
 @Repository
 public interface RestaurantRepository extends ElasticsearchRepository<Restaurant, String> {
-	
+
 	List<Restaurant> findAll();
 
 }

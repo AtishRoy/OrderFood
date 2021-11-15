@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mindtree.zuulapigatewayserver.exception;
 

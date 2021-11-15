@@ -16,12 +16,11 @@ import com.mindtree.order.management.ordermanagementservice.dto.OrderDTO;
 @RequestMapping("/restuarant")
 @RefreshScope
 public interface RestuarantController {
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<List<OrderDTO>> fetchOrdersByRestaurantId(@PathVariable String id,
-			@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+	public ResponseEntity<List<OrderDTO>> fetchOrdersByRestaurantId(@PathVariable String id, @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
 			@RequestParam(value = "count", required = false) Integer count);
-	
-	@GetMapping(params="restuarantId" )
+
+	@GetMapping(params = "restuarantId")
 	public ResponseEntity<List<OrderDTO>> fetchOrdersForCustomerByRestaurantId(@RequestParam("restuarantId") String restuarantId);
 }
