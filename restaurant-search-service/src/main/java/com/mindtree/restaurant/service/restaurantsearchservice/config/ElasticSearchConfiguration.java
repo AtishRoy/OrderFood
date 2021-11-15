@@ -1,5 +1,9 @@
 package com.mindtree.restaurant.service.restaurantsearchservice.config;
 
+import java.io.IOException;
+
+import javax.annotation.PreDestroy;
+
 import org.elasticsearch.client.RestHighLevelClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,16 +36,23 @@ public class ElasticSearchConfiguration extends AbstractElasticsearchConfigurati
 	@Value("${spring.elasticsearch.rest.read-timeout}")
 	private int readTimeout;
 
-	@Override
+	@Bean
 	public RestHighLevelClient elasticsearchClient() {
 		final ClientConfiguration clientConfiguration = ClientConfiguration.builder().connectedTo(serverHostAndPort).withConnectTimeout(connectionTimeout).withSocketTimeout(readTimeout).build();
 
 		return RestClients.create(clientConfiguration).rest();
 	}
 
-	@Bean
+	
+	
+	@Bean(name = { "elasticsearchOperations", "elasticsearchTemplate" }, destroyMethod="")
 	public ElasticsearchOperations elasticsearchTemplate() {
 		return new ElasticsearchRestTemplate(elasticsearchClient());
 	}
+	
+	@PreDestroy
+    public void destroy() throws IOException {
+		elasticsearchClient().close();;
+    }
 
 }
