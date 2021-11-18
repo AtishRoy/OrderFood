@@ -22,6 +22,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.google.gson.Gson;
+import com.mindtree.order.management.ordermanagementservice.dto.ItemDTO;
+import com.mindtree.order.management.ordermanagementservice.dto.OrderDTO;
 import com.mindtree.order.management.ordermanagementservice.exception.OrderNotFoundException;
 import com.mindtree.order.management.ordermanagementservice.model.Item;
 import com.mindtree.order.management.ordermanagementservice.model.Order;
@@ -197,6 +200,28 @@ public class OrderManagementControllerTest {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void testUpdateOrderBadURL() {
+		try {
+			Transaction transaction = new Transaction(1212l, "3FE4DDA55F99EEA2", PaymentMode.CARD, PaymentStatusType.SUCCESS);
+			List<Item> items = new ArrayList<>();
+			items.add(new Item(1234l, "Chapathi", 2));
+			Order order = new Order(1111l, 8689283L, "8888", 9999L, items, 100F, "Address1", "9087654321", OrderStatusType.PLACED, transaction);
+			Mockito.when(serviceMock.updateOrder(ArgumentMatchers.any(Order.class))).thenReturn(order);
+			RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/order").accept(MediaType.APPLICATION_JSON)
+					.content(new Gson().toJson(buildOrderData())).contentType(MediaType.APPLICATION_JSON);
+			MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+			Assert.assertNotNull(result);
+			Assert.assertNotNull(result.getResponse());
+			Assert.assertEquals(201, result.getResponse().getStatus());
+			JSONAssert.assertEquals(
+					"{\"orderId\": 8689284, \"orderStatus\": \"PLACED\", \"transactionId\": \"3FE4DDA55F99EEA2\", \"paymentMode\": \"CARD\", \"paymentStatus\" : \"SUCCESS\"}\"",
+					result.getResponse().getContentAsString(), false);
+		} catch (Exception ex) {
+			Assert.fail();
+		}
+	}
 
 	@Test
 	public void testCancelOrder() {
@@ -246,6 +271,15 @@ public class OrderManagementControllerTest {
 		} catch (Exception ex) {
 			Assert.fail();
 		}
+	}
+	
+	private OrderDTO buildOrderData() {
+		ItemDTO itemDTO = ItemDTO.builder().itemName("A").quantity("1").build();
+		List<ItemDTO> itemLists = new ArrayList<ItemDTO>();
+		itemLists.add(itemDTO);
+		OrderDTO order = OrderDTO.builder().orderId(1111L).restaurantId("8888").customerId("9999").deliveryAddress("Address1").contactNumber("9087654321").itemList(itemLists).totalPrice("10").build();
+		
+		return order;
 	}
 
 }

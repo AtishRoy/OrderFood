@@ -107,7 +107,6 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			throw new OrderNotFoundException("Couldnt find the customer! This customer has not registered or is an inactive customer");
 		}
 		String id = response.getBody().getCustomerId();
-		@SuppressWarnings("removal")
 		Long customerId = new Long(id);
 		if (customerId == -1) {
 			throw new OrderNotFoundException("Couldnot fetch customerId as Customer service took too long to respond");
