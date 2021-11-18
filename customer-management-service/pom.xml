@@ -7,7 +7,7 @@
 	<groupId>com.mindtree.customer.management</groupId>
 	<artifactId>customer-management-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>customer-management-service</name>
 	<description>Demo project for Spring Boot</description>
