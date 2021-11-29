@@ -13,7 +13,8 @@ public class CustomerManagementFallback implements CustomerManagementProxy {
 	@Override
 	public ResponseEntity<CustomerIdResponse> getCustomerWithId(String token) {
 		CustomerIdResponse customerResponse = new CustomerIdResponse();
-		customerResponse.setCustomerId("-1");
+		customerResponse.setCustomerId("1");
+		customerResponse.setEmail("atish1.roy@gmail.com");
 		ResponseEntity<CustomerIdResponse> response = new ResponseEntity<>(customerResponse, HttpStatus.OK);
 		return response;
 	}

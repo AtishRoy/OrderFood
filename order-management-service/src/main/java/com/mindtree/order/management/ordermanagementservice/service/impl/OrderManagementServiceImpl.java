@@ -104,7 +104,8 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		ResponseEntity<CustomerIdResponse> response = null;
 		response = customerManagementProxy.getCustomerWithId((String) httpSession.getAttribute(X_ACCESS_TOKEN));
 		if (response == null || response.getBody() == null) {
-			throw new OrderNotFoundException("Couldnt find the customer! This customer has not registered or is an inactive customer");
+			throw new OrderNotFoundException(
+					"Couldnt find the customer! This customer has not registered or is an inactive customer");
 		}
 		String id = response.getBody().getCustomerId();
 		Long customerId = new Long(id);
@@ -146,7 +147,8 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 	@Override
 	public List<Order> fetchAllOrders(Integer pageNumber, Integer count) {
 		Long customerId = getCustomerIdFromCustomerService();
-		if (pageNumber == null && count == null && "TRUE".equalsIgnoreCase(hazelcastCacheSwitch) && orderCustMap().containsKey(String.valueOf(customerId))) {
+		if (pageNumber == null && count == null && "TRUE".equalsIgnoreCase(hazelcastCacheSwitch)
+				&& orderCustMap().containsKey(String.valueOf(customerId))) {
 			List<Order> list = orderCustMap().get(String.valueOf(customerId));
 			return list;
 		} else {
@@ -154,7 +156,6 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		}
 	}
 
-	
 	private List<Order> returnAllOrders(Long customerId, Integer pageNumber, Integer count) {
 		List<Order> orders = null;
 		if (pageNumber == null && count == null) {
@@ -174,7 +175,8 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 	@Override
 	public List<Order> fetchOrdersOfCustomerByRestaurantId(String id) {
 		Long customerId = getCustomerIdFromCustomerService();
-		StringBuilder builder = new StringBuilder().append(String.valueOf(id)).append("CR").append(String.valueOf(customerId));
+		StringBuilder builder = new StringBuilder().append(String.valueOf(id)).append("CR")
+				.append(String.valueOf(customerId));
 		if ("TRUE".equalsIgnoreCase(hazelcastCacheSwitch) && orderCustRestMap().containsKey(builder.toString())) {
 			List<Order> list = orderCustRestMap().get(builder.toString());
 			return list;
@@ -189,7 +191,8 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 
 	@Override
 	public List<Order> fetchOrdersByRestaurantId(String id, Integer pageNumber, Integer count) {
-		if (pageNumber == null && count == null && "TRUE".equalsIgnoreCase(hazelcastCacheSwitch) && orderRestMap().containsKey(String.valueOf(id))) {
+		if (pageNumber == null && count == null && "TRUE".equalsIgnoreCase(hazelcastCacheSwitch)
+				&& orderRestMap().containsKey(String.valueOf(id))) {
 			return orderRestMap().get(String.valueOf(id));
 		} else {
 			List<Order> orders = null;
@@ -213,7 +216,7 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 	public Order placeOrder(Order order) {
 		order.setOrderId(getRandomValueForOrderId());
 		Order orderResponse = addOrderToDb(order, OrderStatusType.PLACED);
-		populateCacheMap(orderResponse);
+		//populateCacheMap(orderResponse);
 		return orderResponse;
 	}
 
@@ -248,7 +251,8 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			list.add(orderResponse);
 			orderRestMap().put(String.valueOf(orderResponse.getRestaurantId()), list);
 		}
-		StringBuilder custRestId = new StringBuilder().append(orderResponse.getRestaurantId()).append("CR").append(orderResponse.getCustomerId());
+		StringBuilder custRestId = new StringBuilder().append(orderResponse.getRestaurantId()).append("CR")
+				.append(orderResponse.getCustomerId());
 		if (!orderCustRestMap().containsKey(custRestId.toString())) {
 			List<Order> orders = new ArrayList<>();
 			orders.add(orderResponse);
@@ -297,7 +301,8 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		if (order.getOrderId() == null) {
 			throw new OrderNotFoundException(noOrderIDsFound);
 		}
-		List<Order> orders = orderManagementRepository.findByOrderIdAndRestaurantId(order.getOrderId(), order.getRestaurantId());
+		List<Order> orders = orderManagementRepository.findByOrderIdAndRestaurantId(order.getOrderId(),
+				order.getRestaurantId());
 		if (orders == null || orders.isEmpty()) {
 			throw new OrderNotFoundException(reqOrderNotFoundInReqRest);
 		}
@@ -309,13 +314,15 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			throw new OrderNotFoundException(couldnotUpdateOrder);
 		}
 		Order orderResponse = addOrderToDb(order, OrderStatusType.UPDATED);
-		populateCacheAfterUpdateCall(orderResponse);
+		//populateCacheAfterUpdateCall(orderResponse);
 		return orderResponse;
 	}
 
 	private void populateCacheAfterUpdateCall(Order orderResponse) {
 		orderMap().replace(String.valueOf(orderResponse.getOrderId()), orderResponse);
-		List<Order> listForCustomer = orderCustMap().get(String.valueOf(orderResponse.getCustomerId()));
+		List<Order> listForCustomer = orderCustMap().get(String.valueOf(orderResponse.getCustomerId())) != null
+				? orderRestMap().get(String.valueOf(orderResponse.getCustomerId()))
+				: new ArrayList<>();
 		for (Order orderFromCache : listForCustomer) {
 			if (orderFromCache.getOrderId().equals(orderResponse.getOrderId())) {
 				listForCustomer.remove(orderFromCache);
@@ -325,7 +332,9 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			}
 		}
 
-		List<Order> listForRest = orderRestMap().get(String.valueOf(orderResponse.getRestaurantId()));
+		List<Order> listForRest = orderRestMap().get(String.valueOf(orderResponse.getRestaurantId())) != null
+				? orderRestMap().get(String.valueOf(orderResponse.getRestaurantId()))
+				: new ArrayList<>();
 		for (Order orderFromCache : listForRest) {
 			if (orderFromCache.getOrderId().equals(orderResponse.getOrderId())) {
 				listForRest.remove(orderFromCache);
@@ -334,7 +343,8 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 				break;
 			}
 		}
-		StringBuilder custRestId = new StringBuilder().append(orderResponse.getRestaurantId()).append("CR").append(orderResponse.getCustomerId());
+		StringBuilder custRestId = new StringBuilder().append(orderResponse.getRestaurantId()).append("CR")
+				.append(orderResponse.getCustomerId());
 		List<Order> listCustRest = orderCustRestMap().get(custRestId.toString());
 		for (Order orderFromCache : listCustRest) {
 			if (orderFromCache.getOrderId().equals(orderResponse.getOrderId())) {
@@ -357,7 +367,7 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			throw new OrderNotFoundException(couldnotCancelOrder);
 		} else {
 			order.setOrderStatus(OrderStatusType.CANCELLED);
-			populateCacheAfterUpdateCall(order);
+			//populateCacheAfterUpdateCall(order);
 		}
 		return orderCancelledSuccessfully;
 	}

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.mindtree.order.management.ordermanagementservice.model.Order;
@@ -34,5 +35,5 @@ public interface OrderManagementRepository extends JpaRepository<Order, Long> {
 	@Transactional
 	@Modifying
 	@Query(value = "DELETE from Order o WHERE o.orderId = :orderId")
-	int deleteByOrderId(Long orderId);
+	int deleteByOrderId(@Param("orderId") Long orderId);
 }
