@@ -38,15 +38,14 @@ import com.mindtree.restaurant.service.restaurantsearchservice.service.impl.Rest
 import com.mindtree.restaurant.service.restaurantsearchservice.vo.ReviewVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SuppressWarnings("deprecation")
 public class RestaurantServiceTest {
 	@MockBean
-	private ElasticsearchTemplate elasticsearchTemplate;
+	private ElasticsearchOperations elasticsearchTemplate;
 
 	private RestaurantServiceImpl service;
 	@MockBean
 	private RestaurantRepository restaurantRepository;
-
+	
 	@Configuration
 	@EnableElasticsearchRepositories(basePackages = "org.springframework.data.elasticsearch.repositories")
 	static class Config {
@@ -62,7 +61,7 @@ public class RestaurantServiceTest {
 	public void before() {
 		service = new RestaurantServiceImpl();
 		Mockito.mock(Client.class);
-		elasticsearchTemplate = Mockito.mock(ElasticsearchTemplate.class);
+		elasticsearchTemplate = Mockito.mock(ElasticsearchOperations.class);
 		service.setElasticsearchTemplate(elasticsearchTemplate);
 		service.setRestaurantRepository(restaurantRepository);
 
@@ -96,8 +95,13 @@ public class RestaurantServiceTest {
 	@Test
 	public void testSearchByCriteriaWithRating() throws NoRecordsFoundException {
 		NativeSearchQueryBuilder nativeSearch = new NativeSearchQueryBuilder();
-		nativeSearch.withQuery(matchQuery("overAllRating", "4"));
-
+		nativeSearch.withQuery(matchQuery("overAllRating", "2"));
+		
+		
+		List<Restaurant> rest =  service.getRestaurantsBySearchCriteria(null, "4", null, null, null, null);
+		
+		
+		
 		NativeSearchQuery searchQuery = nativeSearch.build();
 		Mockito.when(getResturant(searchQuery)).thenReturn(buildMockResponse());
 		service.getRestaurantsBySearchCriteria("BBQNation", "4", "200", "Chinese", "Bnagalore", "Pulav");
@@ -253,7 +257,7 @@ public class RestaurantServiceTest {
 		categories.add(categ);
 		Restaurant restaurant = Restaurant.builder().cuisineList(cuisineList).closingTime("11:00 PM").openingTime("12:30 AM").websiteLink("www.example.com")
 				.address(Address.builder().addressLine("#58,1st main road").area("parvathipuram").city("Bangalore").landmark("Sajjan Rao").pinCode("560004").state("Karanataka").build()).budget(350)
-				.name("BBQNation").overallRating(4.5f).phoneNumber("9988776655").restaurantId("VK11").categoryList(categories).build();
+				.name("BBQNation").overallRating(4).phoneNumber("9988776655").restaurantId("VK11").categoryList(categories).build();
 		list.add(restaurant);
 		return list;
 	}

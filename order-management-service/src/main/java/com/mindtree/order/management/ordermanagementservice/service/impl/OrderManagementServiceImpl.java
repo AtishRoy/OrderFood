@@ -1,6 +1,5 @@
 package com.mindtree.order.management.ordermanagementservice.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -231,38 +230,6 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		return orderResponse;
 	}
 
-	private void populateCacheMap(Order orderResponse) {
-		orderMap().put(String.valueOf(orderResponse.getOrderId()), orderResponse);
-		if (!orderCustMap().containsKey(String.valueOf(orderResponse.getCustomerId()))) {
-			List<Order> orders = new ArrayList<>();
-			orders.add(orderResponse);
-			orderCustMap().put(String.valueOf(orderResponse.getCustomerId()), orders);
-		} else {
-			List<Order> list = orderCustMap().get(String.valueOf(orderResponse.getCustomerId()));
-			list.add(orderResponse);
-			orderCustMap().put(String.valueOf(orderResponse.getCustomerId()), list);
-		}
-		if (!orderRestMap().containsKey(String.valueOf(orderResponse.getRestaurantId()))) {
-			List<Order> orders = new ArrayList<>();
-			orders.add(orderResponse);
-			orderRestMap().put(String.valueOf(orderResponse.getRestaurantId()), orders);
-		} else {
-			List<Order> list = orderRestMap().get(String.valueOf(orderResponse.getRestaurantId()));
-			list.add(orderResponse);
-			orderRestMap().put(String.valueOf(orderResponse.getRestaurantId()), list);
-		}
-		StringBuilder custRestId = new StringBuilder().append(orderResponse.getRestaurantId()).append("CR")
-				.append(orderResponse.getCustomerId());
-		if (!orderCustRestMap().containsKey(custRestId.toString())) {
-			List<Order> orders = new ArrayList<>();
-			orders.add(orderResponse);
-			orderCustRestMap().put(custRestId.toString(), orders);
-		} else {
-			List<Order> list = orderCustRestMap().get(custRestId.toString());
-			list.add(orderResponse);
-			orderCustRestMap().put(custRestId.toString(), list);
-		}
-	}
 
 	private void validateQuantityForTotalItems(Order order) {
 		int totalQuantity = 0;
@@ -318,43 +285,6 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		return orderResponse;
 	}
 
-	private void populateCacheAfterUpdateCall(Order orderResponse) {
-		orderMap().replace(String.valueOf(orderResponse.getOrderId()), orderResponse);
-		List<Order> listForCustomer = orderCustMap().get(String.valueOf(orderResponse.getCustomerId())) != null
-				? orderRestMap().get(String.valueOf(orderResponse.getCustomerId()))
-				: new ArrayList<>();
-		for (Order orderFromCache : listForCustomer) {
-			if (orderFromCache.getOrderId().equals(orderResponse.getOrderId())) {
-				listForCustomer.remove(orderFromCache);
-				listForCustomer.add(orderResponse);
-				orderCustMap().put(String.valueOf(orderResponse.getCustomerId()), listForCustomer);
-				break;
-			}
-		}
-
-		List<Order> listForRest = orderRestMap().get(String.valueOf(orderResponse.getRestaurantId())) != null
-				? orderRestMap().get(String.valueOf(orderResponse.getRestaurantId()))
-				: new ArrayList<>();
-		for (Order orderFromCache : listForRest) {
-			if (orderFromCache.getOrderId().equals(orderResponse.getOrderId())) {
-				listForRest.remove(orderFromCache);
-				listForRest.add(orderResponse);
-				orderRestMap().put(String.valueOf(orderResponse.getRestaurantId()), listForRest);
-				break;
-			}
-		}
-		StringBuilder custRestId = new StringBuilder().append(orderResponse.getRestaurantId()).append("CR")
-				.append(orderResponse.getCustomerId());
-		List<Order> listCustRest = orderCustRestMap().get(custRestId.toString());
-		for (Order orderFromCache : listCustRest) {
-			if (orderFromCache.getOrderId().equals(orderResponse.getOrderId())) {
-				listCustRest.remove(orderFromCache);
-				listCustRest.add(orderResponse);
-				orderCustRestMap().put(custRestId.toString(), listCustRest);
-				break;
-			}
-		}
-	}
 
 	@Override
 	public String cancelOrder(long id) {

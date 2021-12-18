@@ -1,6 +1,7 @@
 package com.mindtree.order.management.ordermanagementservice.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,18 +13,22 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Range;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  *
  * @author Atish Roy.
  *
  */
+@Getter
+@Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@ToString
 @Table(name = "item")
 public class Item implements Serializable {
 
